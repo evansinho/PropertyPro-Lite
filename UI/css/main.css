@@ -509,6 +509,7 @@ footer p{
 .agent_contact_card{
   padding: 15px;
   box-shadow:var(--shadow);
+  margin-bottom: 15px;
 }
 .agent_contact_card .initial_cover{
   background-color: #361828;
@@ -534,7 +535,9 @@ footer p{
   margin-bottom: 10px;
 }
 
-
+.agent_contact_card hr{
+  margin-top: 10px;
+}
 
 
 
