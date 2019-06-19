@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<link href="https://fonts.googleapis.com/css?family=Righteous&display=swap" rel="stylesheet">
+	  <!-- Style links -->
+	<link rel="stylesheet" type="text/css" href="./css/create-property.css">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
+integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+	<title>Create Property Form</title>
+</head>
+<body>
+	<header>
+		<nav class="nav_bar">
+		<div class="logo">
+			<img src="https://res.cloudinary.com/evansinho/image/upload/v1560631316/logo.png" alt="logo image">
+			<h2 class="logo_text">PropertyPro-Lite</h2>
+		</div>
+		<ul id="nav">
+			<li><a href="index.html" id="home">Home</a></li>
+			<li><p>Welcome Evans!</p></li>
+			<li><span><img src="https://via.placeholder.com/27" alt="user"></span></li>
+		</ul>
+		</nav>
+	</header>
+	<div class="create_ad_form">
+		<h1 class="form_title">NEW PROPERTY ADVERT</h1>
+		<form id="create_property">
+			<div class="row">
+				<div class="labels">
+					<label for="name" id="name-label" >PROPERTY TYPE:</label>
+				</div>
+				<div class="right-tab">
+					<select id="type_dropdown" name="type" required>
+						<option disabled selected>choose</option>
+						<option>1 BEDROOM</option>
+						<option>2 BEDROOM</option>
+						<option>3 BEDROOM</option>
+						<option>4 BEDROOM</option>
+						<option>5 BEDROOM</option>
+					</select>
+				</div>
+			</div>
+			<div class="row">
+				<div class="labels">
+					<label for="address" id="address-label">ADDRESS:</label>
+				</div>
+				<div class="right-tab">
+					<input type="text" id="address" name="address" placeholder="Enter Property Address" required>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="labels">
+					<label for="city" id="city-label">CITY:</label>
+				</div>
+				<div class="right-tab">
+					<input type="text" id="city" name="city" placeholder="Enter Property City" required>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="labels">
+					<label for="state" id="state-label">STATE:</label>
+				</div>
+				<div class="right-tab">
+					<input type="text" id="state" name="state" placeholder="Enter Property state" required>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="labels">
+					<label for="image" id="image-label">UPLOAD IMAGES:</label>
+				</div>
+				<div class="right-tab">
+					<input type="file" id="image" name="image_url" accept="image/*" required>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="labels">
+					<label for="price" id="price-label">PRICE:</label>
+				</div>
+				<div class="right-tab">
+					<input type="number" id="price" name="price" required>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="labels">
+					<label>STATUS:</label>
+				</div>
+				<div class="right-tab">
+					<select id="status_dropdown" name="status" require>
+						<option selected>AVAILABLE</option>
+						<option>SOLD</option>
+					</select>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="labels">
+					<label>DESCRIPTION:</label>
+				</div>
+				<div class="right-tab">
+				   <textarea id="describe" class="input-field" name="description" placeholder="Give More Details..."></textarea>
+				</div>
+			</div>
+			
+			<div class="form_btn">
+				<button  id="cancel">CANCEL</button>
+				<button type="submit" id="submit">CREATE</button>
+			</div>
+		</form>
+	</div>
+	<footer class="main_footer">
+		<div class="lower_footer">
+			<p>Copyright &copy; PropertyPro-lite. All rights reserved</p>
+		</div>
+	</footer>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
