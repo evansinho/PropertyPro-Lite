@@ -162,6 +162,24 @@ footer {
 }
 
 
+@media (max-width: 768px){
+	.logo img{
+    display: none;
+   }
+   .logo .logo_text{
+    font-size: 23px;
+    padding-left: 20px;
+   }
+   .create_ad_form input{
+   	width: 100px;
+   }
+   .create_ad_form select{
+   	width: 100px;
+   }
+   .create_ad_form textarea{
+   	width: 100px;
+   }
+}
 
 
 
