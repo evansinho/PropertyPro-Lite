@@ -548,10 +548,34 @@ footer p{
 }
 
 
-
-
-
-
+/*************REPORT****************************/
+.report{
+  text-align: center;
+}
+.report_form input,textarea{
+  margin-bottom: 30px;
+  margin-left: 200px;
+  display: block;
+  width:50%;
+  padding: 8px;
+  height:30px;
+  border: 1px solid gray;
+  border-radius: 5px;
+}
+.report_form textarea{
+  height: 100px;
+}
+.report .report_header{
+  padding:15px;
+  margin-top: 15px;
+  font-size: 25px;
+  color: var(--secondary);
+}
+.report #report{
+  color:var(--light);
+  background-color: red;
+  margin-bottom: 15px;
+}
 
 
 
