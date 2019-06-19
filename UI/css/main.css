@@ -230,3 +230,133 @@ header p{
 footer p{
   color:var(--light);
 }
+
+/************SIGNUP MODAL******************************/
+
+.login-bg-modal {
+  background-color: rgba(0, 0, 0, 0.8);
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  display: none;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-bg-modal .modal-contents {
+  height: 400px;
+  width: 500px;
+  background-color: white;
+  text-align: center;
+  padding: 20px;
+  position: relative;
+  border-radius: 10px;
+  box-shadow: var(--shadow);
+}
+.login-bg-modal .modal-contents h1{
+  margin-bottom: 40px;
+  font-weight: bold;
+  font-size: 50px;
+  color: var(--secondary);
+}
+
+.login-bg-modal .modal-contents input {
+  margin-bottom: 30px;
+  margin-left: 60px;
+  display: block;
+  width: 70%;
+  padding: 8px;
+  height:30px;
+  border: 1px solid gray;
+  border-radius: 5px;
+}
+
+.login-bg-modal .modal-contents button{
+  width: 60%;
+  margin-bottom: 20px;
+  height: 50px;
+}
+
+.login-bg-modal .modal-contents a{
+  color: #FD6B4D;
+  font-weight: bold;
+}
+
+.login-bg-modal .close {
+  position: absolute;
+  top: 0;
+  right: 10px;
+  font-size: 42px;
+  color: #333;
+  transform: rotate(45deg);
+  cursor: pointer;
+  &:hover {
+    color: #666;
+  }
+}
+
+
+/************SIGNUP MODAL******************************/
+
+.register-bg-modal {
+  background-color: rgba(0, 0, 0, 0.8);
+  width: 100%;
+  height: 100vh;
+  position: absolute;
+  top: 0px;
+  display: none;
+  justify-content: center;
+  align-items: center;
+}
+
+.register-modal-contents {
+  height: 500px;
+  width: 500px;
+  background-color: #fff;
+  text-align: center;
+  padding: 20px;
+  position: relative;
+  border-radius: 10px;
+}
+.register-modal-contents h1{
+  margin-bottom: 15px;
+  font-weight: bold;
+  font-size: 50px;
+  color: var(--secondary);
+}
+
+.register-modal-contents input {
+  margin-bottom: 8px;
+  margin-left: 60px;
+  display: block;
+  width: 70%;
+  padding: 8px;
+  height:30px;
+  border: 1px solid gray;
+  border-radius: 5px;
+}
+
+.register-modal-contents button{
+  width: 60%;
+  margin-bottom:15px;
+  height: 50px;
+}
+
+.register-bg-modal .register-modal-contents a{
+  color: #FD6B4D;
+  font-weight: bold;
+}
+
+.register-bg-modal .close_register {
+  position: absolute;
+  top: 0;
+  right: 10px;
+  font-size: 42px;
+  color: #333;
+  transform: rotate(45deg);
+  cursor: pointer;
+  &:hover {
+    color: #666;
+  }
+}
