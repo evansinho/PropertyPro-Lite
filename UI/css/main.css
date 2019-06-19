@@ -21,10 +21,9 @@ body {
   padding: 0;
   height: 100%;
 }
-
-li{
+ li{
 	list-style: none;
-	display: inline-grid;
+	display: inline-block;
 }
 
 a{
@@ -58,6 +57,16 @@ footer {
 }
 
 /***********NAVIGATION*********************/
+.toggle{
+  width: 100%;
+  background-color:var(--light);
+  color: var(--primary);
+  text-align: right;
+  padding: 10px 35px;
+  box-sizing: border-box; 
+  font-size: 20px;
+  display: none;
+}
 header{
   height: 70px;
   background-color: #fff;
@@ -413,7 +422,6 @@ footer p{
 .property_type{
   background-color: #F8F8F8; 
   display: inline-flex;
-  width: 100%;
   padding: 15px;
 }
 
@@ -454,9 +462,9 @@ footer p{
 
 .specific_property .img-cover{
   height: 560px;
-  width: 800px;
+  width: 100%;
   overflow: hidden;
-  margin-left: 200px;
+  /*margin-left: 200px;*/
   margin-top: -5px;
 }
 
@@ -579,9 +587,174 @@ footer p{
 
 
 
+/***************REPONSIVE DESIGN*******************************/
+
+@media (max-width: 768px){
+  .toggle{
+    display: block;
+    font-size: 20px;
+   }
+  header{
+    background-color: var(--primary);
+  }
+  .logo img{
+    display: none;
+  }
+   .logo .logo_text{
+    font-size: 23px;
+    padding-left: 20px;
+   }
+  #nav{
+    /*margin-top: 60px;*/
+    display: none;
+   }
+  #nav li{
+    display: block;
+   }
+  #nav  a {
+     color: var(--light);
+  }
+  #nav  a:hover{
+    color: var(--primary);
+  }
+  #nav p{
+    color: var(--light);
+    position: absolute;
+    top: -30px;
+  }
+ .showcase_text h1,p,button{
+  padding-top: 100px;
+}
+
+  .agent_cover{
+    display: block;
+  }
+  .agent_cover .agent_list{
+    margin-bottom: 15px;
+    text-align: center;
+  }
+  .agent_list .img_container{
+   padding-left: 150px;
+   width: 200px;
+   height: 400px;
+   overflow: hidden;
+  }
+  .agent_list .img_container img{
+  max-width: 100%;
+  max-height: 100%;
+  display: block;
+  margin: 0 auto;
+  }
+
+ .input_fields textarea{
+    width: 200px;
+  }
 
 
+.login-bg-modal p{
+  color: var(--light);
+}
 
+.register-bg-modal p{
+  color: var(--light);
+}
+
+
+.specific_property .img-cover{
+  position: relative;
+  width: 100%;
+  height:250px;
+  overflow: hidden;
+  margin-left: 0px;
+}
+
+.specific_property .properties{
+  display: block;
+}
+.specific_property .properties .price{
+  margin-bottom: -100px;
+}
+.specific_property .desc_cover{
+  display: block;
+}
+.specific_property .properties .prop_2 .type{
+  margin-top: -100px; 
+}
+#description #details{
+  margin-top: -60px;
+}
+#description button{
+  display: block;
+  margin-left: 250px;
+}
+#description #update{
+  margin-bottom: 50px;
+}
+.agent_contact_card{
+  width: 400px;
+  height: 350px;
+  margin-left: 120px;
+}
+
+.agent_contact_card #agent{
+  margin-bottom: -100px;
+  margin-top: -100px;
+}
+.agent_contact_card .initial_cover{
+  margin-left: 140px;
+}
+
+.property_type{
+  display: block;
+}
+
+.property_type li{
+  height: 50px;
+}
+.property_type .prop_type{
+  margin-top: -80px;
+}
+.property_type #active{
+  background:none;
+  color:var(--primary);
+}
+.property_cover{
+  display: block;
+}
+.property_card{
+  padding: 10px;
+  margin: 10px 0 10px 0;
+}
+
+.property_card h3{
+  margin-bottom: -50px;
+}
+
+}
+
+@media (max-width: 565px){
+  
+  #description button{
+    margin-left: -3px;
+  }
+  .agent_contact_card{
+    margin-left: -3px;
+  }
+  .report input, textarea{
+     margin-left: -2px;
+  }
+  .contact textarea{
+     margin-left: -2px;
+  }
+   #nav p{
+    color: var(--light);
+    position: absolute;
+    top: -20px;
+   
+    /*position: relative;
+    top: -100px;*/
+  }
+}
 
 
 
