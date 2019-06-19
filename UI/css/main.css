@@ -505,6 +505,14 @@ footer p{
   margin-bottom: 10px;
 }
 
+#description #delete{
+  background-color: red;
+  margin-top: 20px;
+}
+
+#description #update{
+  margin-top: 20px;
+}
 
 .agent_contact_card{
   padding: 15px;
