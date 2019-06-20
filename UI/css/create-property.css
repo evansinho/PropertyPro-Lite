@@ -1,0 +1,193 @@
+*{
+	margin: 0;
+}
+ body{
+	font-size: 16px;
+	font-family:  Arial, Helvetica, sans-serif;
+	font-weight: bold;
+	background: linear-gradient( rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.5) ),url('https://res.cloudinary.com/evansinho/image/upload/v1560631343/showcase_1.jpg') no-repeat center center/cover;;
+	text-align: center;
+}
+
+header{
+  height: 70px;
+  background-color: #fff;
+}
+li{
+	list-style: none;
+	display: inline-grid;
+}
+
+a{
+	text-decoration: none;
+	text-transform: uppercase;
+}
+
+footer {
+  background: #757B81;
+  text-align: center;
+  padding: 10px;
+  margin-top: 40px;
+}
+.nav_bar{
+  display: grid;
+  grid-template-columns: 50% 50%;
+}
+
+.logo{
+	display: inline-flex;
+  padding-top: 8px;
+}
+.logo img{
+	width: 30px;
+	margin-right:10px;
+	margin-bottom: 10px;
+  margin-left:20px;
+  padding-top: 5px;
+} 
+
+.logo .logo_text{
+	font-size: 35px;
+	font-family: 'Righteous', cursive;
+	font-weight: bold;
+	color:var(--secondary);
+  padding-top: 5px;
+}
+
+#nav{
+  text-align: right;
+  padding: 17px;
+  padding-top: 12px;
+}
+#nav li{
+  padding: 5px;
+}
+
+#nav a{
+  color:#333333;
+  font-size: 14px;
+  font-weight: bold;
+}
+#nav a:hover{
+  color:#3151B7;
+}
+#nav #home{
+  margin-right: 15px;
+}
+
+#nav img{
+  margin-top: 5px;
+  border-radius: 50%;
+}
+
+
+.labels{
+	display: inline-block;
+    text-align: right;
+    width: 40%;
+    padding: 5px;
+    vertical-align: top;
+}
+.right-tab{
+	display: inline-block;
+    text-align: left;
+    width: 48%;
+    vertical-align: middle;
+}
+.create_ad_form{
+	background-color: #FFF;
+    margin: 0 auto;
+    border-radius: 4px;
+    max-width: 650px;
+    height: 690px;
+    margin-top: 20px;
+}
+
+.create_ad_form h1{
+	padding: 10px;
+}
+
+.row{
+	padding: 15px;
+}
+.create_ad_form input{
+	width:200px;
+	height:30px;
+	border-radius: 10px;
+}
+.create_ad_form select{
+	width:200px;
+	height:30px;
+	border-radius: 10px;
+}
+
+.create_ad_form label{
+	font-size: 20px;
+}
+.create_ad_form textarea{
+	width: 200px;
+	height: 100px;
+	border-radius: 10px;
+}
+.form_btn{
+	background-color: #EBEDEF;
+	position: relative;
+	bottom:-40
+	px;
+	width: 100%;
+	height: 40px;
+	text-align: right;
+}
+.form_btn #submit{
+	margin-right: 15px;
+	background:#3151B7;
+	color: #fff;
+	padding: 10px;
+	text-decoration: none;
+	border-radius: 10px;
+	text-transform: uppercase;
+	font-weight: bold;
+	width: 100px;
+}
+
+.form_btn #cancel{
+	background:#DD5246;
+	color: #fff;
+	padding: 10px;
+	text-decoration: none;
+	border-radius: 10px;
+	text-transform: uppercase;
+	font-weight: bold;
+	width: 100px;
+}
+
+
+@media (max-width: 768px){
+	.logo img{
+    display: none;
+   }
+   .logo .logo_text{
+    font-size: 23px;
+    padding-left: 20px;
+   }
+   .create_ad_form input{
+   	width: 100px;
+   }
+   .create_ad_form select{
+   	width: 100px;
+   }
+   .create_ad_form textarea{
+   	width: 100px;
+   }
+}
+
+
+
+
+
+
+
+
+
+
+
