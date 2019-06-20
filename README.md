@@ -25,4 +25,4 @@ intervention location.
 project is managed [here](https://www.pivotaltracker.com/n/projects/2354807) using the project management tool [pivotal tracker](www.pivotaltracler.com).
 
 ## Templates 
-Ui templates are hosted on Github pages [here](evansinho.github.io/PropertyPro-lite/UI)
+Ui templates are hosted on Github pages [here](https://evansinho.github.io/PropertyPro-Lite/UI/)
