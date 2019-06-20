@@ -169,6 +169,7 @@ footer {
    .logo .logo_text{
     font-size: 23px;
     padding-left: 20px;
+    color:  color: var(--light);
    }
    .create_ad_form input{
    	width: 100px;

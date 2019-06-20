@@ -603,6 +603,7 @@ footer p{
    .logo .logo_text{
     font-size: 23px;
     padding-left: 20px;
+    color: var(--light);
    }
   #nav{
     /*margin-top: 60px;*/
