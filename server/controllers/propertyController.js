@@ -68,7 +68,10 @@ const Property = {
     const deleteProperty = await propertyModel.delete(req.params.id);
        return res.status(204)
           .json({
-              deleteProperty
+          	status:204,
+          	data:{
+          		message: 'propert advert deleted'
+          	}	
           });
 
     }catch(error){
@@ -93,7 +96,9 @@ const Property = {
           return res.status(200)
                 .json({
                     status:200,
+                    data:{
                      updatedProperty
+                    }
                    });
 
   			}catch(error){
@@ -101,6 +106,35 @@ const Property = {
   			}
 	
   	     },
+
+  	 //MARK PROPERTY AD AS SOLD
+
+  	 async mark(req, res){
+
+  			try{
+
+ 		const property = await propertyModel.findOne(req.params.id);
+           if (!property) return res.status(404)
+                .json({
+                  status:404,
+                  error: 'property not found'
+                });
+
+        const markProperty = await propertyModel.mark(req.params.id, req.body.status);
+          return res.status(200)
+                .json({
+                    status:200,
+                     markProperty
+                   });
+
+  			}catch(error){
+  				console.log(error);
+  			}
+	
+  	     },
+
+
+
       
 }
   
