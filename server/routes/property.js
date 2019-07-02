@@ -7,6 +7,10 @@ const router = Router();
 
 router.post( '/', upload.single('image_url'), Property.create);
 router.delete( '/:id', Property.delete);
+router.patch( '/:id', Property.update);
+router.patch( '/:id/sold', Property.mark);
+
+
 
 
 module.exports = router;

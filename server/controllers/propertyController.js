@@ -6,18 +6,15 @@ import cloudinary from 'cloudinary';
 
 
 dotenv.config();
-cloudinary.config({ 
-  cloud_name: 'evansinho', 
-  api_key: process.env.CLOUDINARY_API_KEY, 
-  api_secret: process.env.CLOUDINARY_API_SECRET
-});
+
+cloudinary.config(process.env.CLOUDINARY_URL);
 
 
 
 const Property = {
 
   //CREATE PROPERTY
-  async create(req, res) {
+  async create(req,res) {
 
     try{
 
@@ -41,7 +38,6 @@ const Property = {
           });     
 
      const newProperty = await propertyModel.createProperty(req.body);
-
         newProperty.image_url = imageFile.secure_url;
 
     return res.status(201).json({
@@ -72,13 +68,70 @@ const Property = {
     const deleteProperty = await propertyModel.delete(req.params.id);
        return res.status(204)
           .json({
-              deleteProperty
+          	status:204,
+          	data:{
+          		message: 'propert advert deleted'
+          	}	
           });
 
     }catch(error){
       console.log(error);
      }
-   }
+   },
+
+
+     //UPDATE PROPERTY AD
+  	async update (req, res){
+
+  			try{
+
+ 		const property = await propertyModel.findOne(req.params.id);
+           if (!property) return res.status(404)
+                .json({
+                  status:404,
+                  error: 'property not found'
+                });
+
+        const updatedProperty = await propertyModel.update(req.params.id, req.body);
+          return res.status(200)
+                .json({
+                    status:200,
+                    data:{
+                     updatedProperty
+                    }
+                   });
+
+  			}catch(error){
+  				console.log(error);
+  			}
+	
+  	     },
+
+  	 //MARK PROPERTY AD AS SOLD
+
+  	 async mark(req, res){
+
+  			try{
+
+ 		const property = await propertyModel.findOne(req.params.id);
+           if (!property) return res.status(404)
+                .json({
+                  status:404,
+                  error: 'property not found'
+                });
+
+        const markProperty = await propertyModel.mark(req.params.id, req.body.status);
+          return res.status(200)
+                .json({
+                    status:200,
+                     markProperty
+                   });
+
+  			}catch(error){
+  				console.log(error);
+  			}
+	
+  	     },
 
 
 
@@ -87,3 +140,4 @@ const Property = {
   
 
 module.exports = Property;
+
