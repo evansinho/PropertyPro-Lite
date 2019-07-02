@@ -15,6 +15,7 @@ const { expect } = chai;
 chai.use(chaiHttp);
 
 
+
 //USER SIGNUP TEST
 describe('User', () => {
   describe('Sign up User', () => {
@@ -34,6 +35,7 @@ describe('User', () => {
     });
   });
 
+
   // test if email already exists
   it('should return a user conflict error', (done) => {
     chai
@@ -43,9 +45,7 @@ describe('User', () => {
       .end((err, res) => {
         expect(res.status).to.equal(409);
         expect(res.body.status).to.equal(409);
-        expect(res.body).to.have.property('data');
-        expect(res.body.data).to.have.property('error');
-        expect(res.body.data).to.be.a('object');
+        expect(res.body).to.have.property('error').eql('Email address has been used');
         done();
       });
   });
@@ -66,7 +66,6 @@ describe('User', () => {
 });
 
 
-
 //TEST FOR SIGNIN USERS
 describe('User signin test suite', () => {
   it('should signin user successfully', (done) => {
@@ -83,6 +82,7 @@ describe('User signin test suite', () => {
         done();
       });
   });
+  
 
   // signin validation
   it('should return a User validation error', (done) => {
