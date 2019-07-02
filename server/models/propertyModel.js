@@ -27,12 +27,12 @@ class Property {
   }
  
   findOne(id) {
-    return this.properties.find(user => user.id=== id);
+    return this.properties.find(property => property.id=== id);
   }
 
 
   findAddress(address) {
-    return this.properties.find(user => user.address=== address);
+    return this.properties.find(property => property.address=== address);
   }
 
 
@@ -41,7 +41,7 @@ class Property {
   }
 
   findOneType(propType) {
-  	return this.properties.find(user => user.propType === propType);
+  	return this.properties.find(property => property.propType === propType);
   }
 
   delete(id) {
