@@ -1,4 +1,7 @@
-import Joi from 'joi';
+import BaseJoi from 'joi';
+import ImageExtension from 'joi-image-extension';
+
+const Joi = BaseJoi.extend(ImageExtension);
 
 
 export const checkSignup = Joi.object().keys({
@@ -8,7 +11,7 @@ export const checkSignup = Joi.object().keys({
   password: Joi.string().regex(/^[a-zA-Z0-9]{6,16}$/).min(6).required(),
   phoneNumber: Joi.number().min(1).required(),
   is_admin: Joi.boolean().default(false),
-  address:Joi.string().min(3)
+  address: Joi.string().min(3).regex(/^[\w\-\s]+$/)
 });
 
 
@@ -18,3 +21,14 @@ export const checkSignin = Joi.object().keys({
 });
 
       
+
+ export const checkProperty = Joi.object().keys({
+  status: Joi.string().required().default('available'),
+  price: Joi.number().required(),
+  state: Joi.string().required(),
+  city: Joi.string().required(),
+  address: Joi.string().min(3).required(),
+  propType: Joi.string().regex(/^[\w\-\s]+$/).required(),   
+  image_url: Joi.image().allowTypes(['png', 'bmp','jpg'])
+  /*image_url: Joi.image().encoding('base64').max(2 * 1024 * 1024).required()*/
+});

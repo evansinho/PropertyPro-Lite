@@ -22,10 +22,9 @@ const User = {
     const userExist = await userModel.findOne(req.body.email);
     if (userExist) return res.status(409)
     	.json({
-    	status:409,
-    	data: {
+    	      status:409,
             error:'Email address has been used'
-          }});
+          });
 
     const newUser = await userModel.createUser(req.body);
     
