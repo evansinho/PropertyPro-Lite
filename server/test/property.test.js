@@ -103,7 +103,7 @@ describe('DELETE a property', () => {
         expect(res.body).to.have.property('data');
         expect(res.body.data).to.be.a('object');
         expect(res.body.data).to.have.property('message');
-        expect(res.body.message).to.equal('1 property successfully deleted');
+        expect(res.body.message).to.equal('property successfully deleted');
         done();
       });
   });
