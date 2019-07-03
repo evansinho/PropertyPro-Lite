@@ -171,6 +171,31 @@ const Property = {
 	
   	     },
 
+  	 // GET A SPECIFIC PROPERTY  
+  	 
+  	  async getAProperty(req, res){
+
+  			try{
+
+        const oneProperty = propertyModel.findOne();
+         if (!oneProperty) return res.status(404)
+                .json({
+                  status:404,
+                  error: 'property not found'
+                });
+
+   			 return res.status(200)
+   			 .json({
+   			 	status:200,
+   			 	data:[oneProperty]
+   			 	});
+   			
+  			}catch(error){
+  				console.log(error);
+  			}
+	
+  	     },  
+
       
 }
   
