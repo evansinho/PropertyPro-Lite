@@ -10,6 +10,7 @@ router.delete( '/:id', Property.delete);
 router.patch( '/:id', Property.update);
 router.patch( '/:id/sold', Property.mark);
 router.get( '/', Property.getAll);
+router.get( '/?propType=propertyType', Property.specificPropType);
 
 
 
