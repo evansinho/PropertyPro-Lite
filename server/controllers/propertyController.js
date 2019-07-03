@@ -152,8 +152,24 @@ const Property = {
 	
   	     },
    
+  	 //GET SPECIFIC PROPERTY TYPE
 
+  	  async specificPropType(req, res){
 
+  			try{
+
+        	const specificProperties = propertyModel.findOneType();
+   			 return res.status(200)
+   			 .json({
+   			 	status:200,
+   			 	data:[specificProperties]
+   			 	});
+
+  			}catch(error){
+  				console.log(error);
+  			}
+	
+  	     },
 
       
 }
