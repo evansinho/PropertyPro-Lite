@@ -133,6 +133,26 @@ const Property = {
 	
   	     },
 
+     //GET ALL PROPERTY
+
+  	  async getAll(req, res){
+
+  			try{
+
+        	const properties = propertyModel.findAll();
+   			 return res.status(200)
+   			 .json({
+   			 	status:200,
+   			 	data:[properties]
+   			 	});
+
+  			}catch(error){
+  				console.log(error);
+  			}
+	
+  	     },
+   
+
 
 
       
