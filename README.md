@@ -1,4 +1,5 @@
  # PropertyPro-Lite :house:
+[![Build Status](https://travis-ci.org/evansinho/PropertyPro-Lite.svg?branch=develop)](https://travis-ci.org/evansinho/PropertyPro-Lite)
 
 ## Project Overview
 Property Pro Lite is a platform where people can create and/or search properties for sale or rent.
