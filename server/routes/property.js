@@ -1,3 +1,4 @@
+import auth from '../middleware/auth';
 import Property from '../controllers/propertyController';
 import { upload } from '../middleware/multer';
 import { Router } from 'express';
@@ -10,9 +11,11 @@ router.delete( '/:id', Property.delete);
 router.patch( '/:id', Property.update);
 router.patch( '/:id/sold', Property.mark);
 router.get( '/', Property.getAll);
-router.get( '/?propType=propertyType', Property.specificPropType);
+router.get( '/?propType/propertyType', Property.getAll);
 router.get( '/:id', Property.getAProperty);
 
 
 
 module.exports = router; 
+
+/*auth.verifyToken,*/

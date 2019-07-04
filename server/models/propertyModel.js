@@ -40,9 +40,6 @@ class Property {
     return this.properties;
   }
 
-  findOneType(propType) {
-  	return this.properties.find(property => property.propType === propType);
-  }
 
   delete(id) {
     const property = this.findOne(id);
@@ -60,14 +57,8 @@ class Property {
     this.properties[index].address = data['address'] || property.address;
     this.properties[index].propType = data['propType'] || property.propType;
     this.properties[index].image_url = data['image_url'] || property.image_url;
-    this.properties[index].createdDate = moment.now();
-    return this.properties[index];
-  }
-
-  mark(id, data) {
-  	const property = this.findOne(id);
-    const index = this.properties.indexOf(property);
     this.properties[index].status = data['status'] || property.status;
+    this.properties[index].createdDate = moment.now();
     return this.properties[index];
   }
 

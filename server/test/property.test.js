@@ -18,13 +18,13 @@ describe('Create a property', () => {
     chai
       .request(app)
       .post('/api/v1/property')
+      .set('Accept', 'application/json')
       .send(goodPropertyDetail)
       .end((err, res) => {
         expect(res.status).to.equal(201);
         expect(res.body.status).to.equal(201);
         expect(res.body).to.have.property('data');
         expect(res.body.data).to.be.a('object');
-        expect(res.body.data).to.have.property('id');
         done();
       });
   });
@@ -33,6 +33,7 @@ describe('Create a property', () => {
     chai
       .request(app)
       .post('/api/v1/property')
+      .set('Accept', 'application/json')
       .send(badPropertyDetail)
       .end((err, res) => {
         expect(res.status).to.equal(400);
@@ -50,6 +51,7 @@ describe('MARK a property as SOLD', () => {
     chai
       .request(app)
       .patch('/api/v1/property/223343/sold')
+      .set('Accept', 'application/json')
       .send(markProperty)
       .end((err, res) => {
         expect(res.status).to.equal(200);
@@ -71,6 +73,7 @@ describe('UPDATE a property', () => {
     chai
       .request(app)
       .patch('/api/v1/property/223343')
+      .set('Accept', 'application/json')
       .send(updatePropertyDetail)
       .end((err, res) => {
         expect(res.status).to.equal(200);
@@ -97,13 +100,14 @@ describe('DELETE a property', () => {
     chai
       .request(app)
       .delete('/api/v1/property/1234')
+      .set('Accept', 'application/json')
       .end((err, res) => {
-        expect(res.status).to.equal(200);
-        expect(res.body.status).to.equal(200);
+        expect(res.status).to.eql(200);
+        expect(res.body.status).to.eql(200);
         expect(res.body).to.have.property('data');
         expect(res.body.data).to.be.a('object');
         expect(res.body.data).to.have.property('message');
-        expect(res.body.message).to.equal('property successfully deleted');
+        expect(res.body.message).to.eql('property successfully deleted');
         done();
       });
   });
@@ -112,8 +116,8 @@ describe('DELETE a property', () => {
       .request(app)
       .delete('/api/v1/property/190')
       .end((err, res) => {
-        expect(res.status).to.equal(404);
-        expect(res.body.status).to.equal(404);
+        expect(res.status).to.eql(404);
+        expect(res.body.status).to.eql(404);
         expect(res.body).to.have.property('error');
         done();
       });
@@ -128,6 +132,7 @@ describe('Get all PROPERTIES', () => {
     chai
       .request(app)
       .get('/api/v1/property')
+      .set('Accept', 'application/json')
       .end((err, res) => {
         expect(res.status).to.equal(200);
         expect(res.body.status).to.equal(200);
@@ -146,6 +151,7 @@ describe('Get a property', () => {
     chai
       .request(app)
       .get('/api/v1/property/3678897')
+      .set('Accept', 'application/json')
       .end((err, res) => {
         expect(res.status).to.equal(200);
         expect(res.body.status).to.equal(200);
@@ -160,6 +166,7 @@ describe('Get a property', () => {
     chai
       .request(app)
       .get('/api/v1/property/23')
+      .set('Accept', 'application/json')
       .end((err, res) => {
         expect(res.status).to.equal(404);
         expect(res.body.status).to.equal(404);
@@ -174,6 +181,7 @@ describe('Get a property', () => {
     chai
       .request(app)
       .get('/api/v1/property/NOT_A_NUMBER')
+      .set('Accept', 'application/json')
       .end((err, res) => {
         expect(res.status).to.equal(400);
         expect(res.body.status).to.equal(400);
@@ -193,6 +201,7 @@ describe('GET all PROPERTY of specific type', () => {
     chai
       .request(app)
       .get('/api/v1/property?type=1 bedroom')
+      .set('Accept', 'application/json')
       .end((err, res) => {
         expect(res.status).to.equal(200);
         expect(res.body.status).to.equal(200);
@@ -206,6 +215,7 @@ describe('GET all PROPERTY of specific type', () => {
     chai
     .request(app)
     .get('/api/v1/property?type=thioff')
+    .set('Accept', 'application/json')
     .end((err, res) => {
         expect(res.status).to.equal(400);
         expect(res.body.status).to.equal(400);

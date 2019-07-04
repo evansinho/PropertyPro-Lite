@@ -1,13 +1,21 @@
+import _ from 'lodash';
 import propertyModel from '../models/propertyModel';
 import { checkProperty } from '../middleware/inputValidator';
-import dotenv from 'dotenv';
+/*import dotenv from 'dotenv';*/
 import cloudinary from 'cloudinary';
 
 
+// fix issues with cloudinary and environmental viraiable
+/*dotenv.config();*/
+/*cloudinary.config(process.env.CLOUDINARY_URL);
+*/
 
-dotenv.config();
+cloudinary.config({
+  cloud_name: 'evansinho', 
+  api_key: '795759144763958', 
+  api_secret: 'e8Rb4Pt3PHUEN5bRc9o6mFODSEY'
+})
 
-cloudinary.config(process.env.CLOUDINARY_URL);
 
 
 
@@ -120,11 +128,12 @@ const Property = {
                   error: 'property not found'
                 });
 
-        const markProperty = await propertyModel.mark(req.params.id, req.body.status);
+        const markProperty = await propertyModel.update(req.params.id, req.body);
+        const mark = await _.pick(markProperty,['status']);
           return res.status(200)
                 .json({
                     status:200,
-                     markProperty
+                     mark
                    });
 
   			}catch(error){
@@ -139,37 +148,43 @@ const Property = {
 
   			try{
 
-        	const properties = propertyModel.findAll();
-   			 return res.status(200)
-   			 .json({
-   			 	status:200,
-   			 	data:[properties]
-   			 	});
+          let response = [];
+
+          if (req.query.propType === undefined)
+            return res.status(400)
+              .json({
+                status:400,
+                message:'propType does not exist'
+              })
+          
+        	const properties = await propertyModel.findAll();
+
+          if(typeof req.query.propType != undefined){
+
+            properties.filter( property =>{
+
+              if(property.propType === req.query.propType){
+                response.push(property);
+              }
+            })
+          }
+
+          response = _.uniqBy(response, 'id');
+
+          if (Object.keys(req.query).length === 0){
+            response = properties;
+          }
+
+     			return res.status(200)
+     			 .json({
+     			 	status:200,
+     			 	data:response
+     			 	});
 
   			}catch(error){
   				console.log(error);
   			}
-	
-  	     },
-   
-  	 //GET SPECIFIC PROPERTY TYPE
-
-  	  async specificPropType(req, res){
-
-  			try{
-
-        	const specificProperties = propertyModel.findOneType();
-   			 return res.status(200)
-   			 .json({
-   			 	status:200,
-   			 	data:[specificProperties]
-   			 	});
-
-  			}catch(error){
-  				console.log(error);
-  			}
-	
-  	     },
+   },
 
   	 // GET A SPECIFIC PROPERTY  
   	 
@@ -177,7 +192,7 @@ const Property = {
 
   			try{
 
-        const oneProperty = propertyModel.findOne();
+        const oneProperty = await propertyModel.findOne(req.params.id);
          if (!oneProperty) return res.status(404)
                 .json({
                   status:404,
@@ -194,7 +209,7 @@ const Property = {
   				console.log(error);
   			}
 	
-  	     },  
+  	 },  
 
       
 }
