@@ -1,14 +1,17 @@
 export const goodPropertyDetail = 
   // Good property details
   {
-  state:'lagos', 
-  city:'lagos',
-  address:'4 ikorudu road',
-  price: '200000',
-  status :'available',
-  image_url:'ceiling-chairs-clean-1884235.jpg',
-  propType:'1 bedroom'
+    status: "available",
+    price: 5009000,
+    state: "lagos state",
+    city: "lagos",
+    address: "8 ikoku road",
+    image_url:"ceiling-chairs-clean-1884235.jpg",
+    propType: "6 bedroom"
   };
+
+
+         
 
 export const badPropertyDetail = 
   // bad property details
@@ -18,7 +21,7 @@ export const badPropertyDetail =
   state:'lagos state',
   city:'lagos',
   address:'',
-  price: '200000',
+  price: 200000,
   image_url:''
   };
 
@@ -30,7 +33,7 @@ export const updatePropertyDetail =
   state:'lagos state',
   city:'lagos',
   address:'4 ikorudu road',
-  price: '200000',
+  price: 200000,
   image_url:'ceiling-chairs-clean-1884235.jpg'
   };
 

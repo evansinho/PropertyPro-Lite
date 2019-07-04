@@ -64,7 +64,7 @@ const User = {
 
     const token = jwt.sign(req.body, SECRET, { expiresIn: '1hr' });
 
-    return res.status(200).json({
+    return res.header('x-auth-token', token).status(200).json({
           status: 200,
           data: {
             token,
