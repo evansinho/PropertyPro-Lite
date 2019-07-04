@@ -1,7 +1,9 @@
 # PropertyPro-Lite :house:
 
+### Build Status
+
 [![Build Status](https://travis-ci.org/evansinho/PropertyPro-Lite.svg?branch=develop)](https://travis-ci.org/evansinho/PropertyPro-Lite)
-[![Coverage Status](https://coveralls.io/repos/github/evansinho/PropertyPro-Lite/badge.svg?branch=master)](https://coveralls.io/github/evansinho/PropertyPro-Lite?branch=master)
+[![Coverage Status](https://coveralls.io/repos/github/evansinho/PropertyPro-Lite/badge.svg?branch=develop)](https://coveralls.io/github/evansinho/PropertyPro-Lite?branch=develop)
 [![Maintainability](https://api.codeclimate.com/v1/badges/11fc031a69a41f28bbcb/maintainability)](https://codeclimate.com/github/evansinho/PropertyPro-Lite/maintainability)
 
 ## Project Overview

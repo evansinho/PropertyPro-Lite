@@ -1,20 +1,13 @@
 import _ from 'lodash';
 import propertyModel from '../models/propertyModel';
 import { checkProperty } from '../middleware/inputValidator';
-/*import dotenv from 'dotenv';*/
+import dotenv from 'dotenv';
 import cloudinary from 'cloudinary';
 
 
-// fix issues with cloudinary and environmental viraiable
-/*dotenv.config();*/
-/*cloudinary.config(process.env.CLOUDINARY_URL);
-*/
 
-cloudinary.config({
-  cloud_name: 'evansinho', 
-  api_key: '795759144763958', 
-  api_secret: 'e8Rb4Pt3PHUEN5bRc9o6mFODSEY'
-})
+dotenv.config();
+cloudinary.config(process.env.CLOUDINARY_URL);
 
 
 
@@ -129,18 +122,18 @@ const Property = {
                 });
 
         const markProperty = await propertyModel.update(req.params.id, req.body);
-        const mark = await _.pick(markProperty,['status']);
+        const changeStatus = await _.pick(markProperty,['status']);
           return res.status(200)
                 .json({
                     status:200,
-                     mark
+                     changeStatus
                    });
 
   			}catch(error){
   				console.log(error);
   			}
 	
-  	     },
+  	 },
 
      //GET ALL PROPERTY
 
@@ -150,13 +143,7 @@ const Property = {
 
           let response = [];
 
-          if (req.query.propType === undefined)
-            return res.status(400)
-              .json({
-                status:400,
-                message:'propType does not exist'
-              })
-          
+   
         	const properties = await propertyModel.findAll();
 
           if(typeof req.query.propType != undefined){

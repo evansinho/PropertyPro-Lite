@@ -1,5 +1,5 @@
-import 'babel-polyfill';
 import express from 'express';
+import 'babel-polyfill';
 import path from 'path';
 import Property from './routes/property';
 import Users from './routes/users';

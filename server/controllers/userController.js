@@ -13,16 +13,19 @@ const User = {
 
   //USER SIGNUP controller
   async signUp(req, res) {
-    const { error } = checkSignup.validate(req.body);
+
+    try{
+
+      const { error } = checkSignup.validate(req.body);
     if (error) return res.status(400)
-    	.json({
-    	status:400,
-    	'error':error.details[0].message});
+      .json({
+      status:400,
+      'error':error.details[0].message});
 
     const userExist = await userModel.findOne(req.body.email);
     if (userExist) return res.status(409)
-    	.json({
-    	      status:409,
+      .json({
+            status:409,
             'error':'Email address has been used'
           });
 
@@ -30,20 +33,26 @@ const User = {
     
     newUser.password = await bcrypt.hash(req.body.password, 10);
 
-    const token = jwt.sign(newUser, SECRET, { expiresIn: '1hr' });
+    const token = jwt.sign({id: newUser.id, is_admin: newUser.is_admin}, SECRET, { expiresIn: '24h' });
 
-    return res.status(201).json({
+    return res.header('x-auth-token', token).status(201).json({
           status: 201,
           data: {
             token,
             newUser
           }
         });
-      },
 
+    }catch(error){
+      console.log(error);
+    }  
+},
 
   //USER SIGNIN controller
   async signIn(req, res) {    
+
+    try{
+
     const { error } = checkSignin.validate(req.body);
     if (error) return res.status(400)
       .json({
@@ -70,7 +79,12 @@ const User = {
             token,
           }
         });
-      },
-  }
+      }catch(error){
+    console.log(error)
+    }
+ }
+
+
+};
 
 module.exports = User;
