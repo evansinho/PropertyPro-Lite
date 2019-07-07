@@ -28,7 +28,7 @@ export const checkSignin = Joi.object().keys({
   state: Joi.string().required(),
   city: Joi.string().required(),
   address: Joi.string().min(3).required(),
-  propType: Joi.string().regex(/^[\w\-\s]+$/).required(),   
+  type: Joi.string().regex(/^[\w\-\s]+$/).required(),   
   image_url: Joi.image().allowTypes(['png', 'bmp','jpg'])
   /*image_url: Joi.image().encoding('base64').max(2 * 1024 * 1024).required()*/
 });

@@ -146,11 +146,11 @@ const Property = {
    
         	const properties = await propertyModel.findAll();
 
-          if(typeof req.query.propType != undefined){
+          if(typeof req.query.type != undefined){
 
             properties.filter( property =>{
 
-              if(property.propType === req.query.propType){
+              if(property.type === req.query.type){
                 response.push(property);
               }
             })
