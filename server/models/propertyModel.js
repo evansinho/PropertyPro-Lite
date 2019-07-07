@@ -18,7 +18,7 @@ class Property {
       state: data.state,
       city: data.city,
       address: data.address,
-      propType: data.propType,
+      type: data.type,
       image_url:data.image_url,
       createdDate: moment.now()
     };
@@ -55,7 +55,7 @@ class Property {
     this.properties[index].state = data['state'] || property.state;
     this.properties[index].city = data['city'] || property.city;
     this.properties[index].address = data['address'] || property.address;
-    this.properties[index].propType = data['propType'] || property.propType;
+    this.properties[index].type = data['type'] || property.type;
     this.properties[index].image_url = data['image_url'] || property.image_url;
     this.properties[index].status = data['status'] || property.status;
     this.properties[index].createdDate = moment.now();

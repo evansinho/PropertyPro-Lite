@@ -18,6 +18,7 @@ app.use(express.static(path.join(__dirname, '../UI/')));
 app.use('/api/v1/auth', Users);
 app.use('/api/v1/property',Property);
 
+
 app.use((err, req, res, next) => {
   res.status(err.status || 500);
   res.json({ message: err.message, status: 'failure' });
