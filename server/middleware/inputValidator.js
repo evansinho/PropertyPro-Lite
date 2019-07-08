@@ -11,7 +11,7 @@ export const checkSignup = Joi.object().keys({
   password: Joi.string().regex(/^[a-zA-Z0-9]{6,16}$/).min(6).required(),
   phoneNumber: Joi.number().min(1).required(),
   is_admin: Joi.boolean().default(false),
-  address: Joi.string().min(3).regex(/^[\w\-\s]+$/)
+  address: Joi.string().min(3).regex(/^[\w\-\s]+$/).required()
 });
 
 

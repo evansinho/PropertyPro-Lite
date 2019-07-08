@@ -7,12 +7,12 @@ const migration = `
 	/*Table schema for table users */
 	DROP TABLE IF EXISTS users CASCADE;
 	CREATE TABLE users (
-	  id UUID UNIQUE PRIMARY KEY,
+	  id UUID UNIQUE PRIMARY KEY NOT NULL,
 	  email VARCHAR(45) UNIQUE NOT NULL,
 	  first_name TEXT NOT NULL,
 	  last_name TEXT NOT NULL,
 	  password varchar(100) NOT NULL,
-	  phoneNumber int NOT NULL,
+	  phoneNumber NUMERIC NOT NULL,
 	  address TEXT NOT NULL,
 	  is_admin BOOLEAN DEFAULT FALSE,
 	  createdOn TIMESTAMP NOT NULL

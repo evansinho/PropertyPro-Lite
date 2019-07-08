@@ -1,8 +1,12 @@
 import dotenv from 'dotenv';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
-import userModel from '../models/userModel';
+import pool from '../utilities/connection';
+import query from '../utilities/queries';
+/*import userModel from '../models/userModel';*/
 import { checkSignup, checkSignin } from '../middleware/inputValidator';
+import moment from 'moment';
+import uuidv4 from 'uuid/v4';
 
 dotenv.config();
 const SECRET = process.env.JWT_KEY;
@@ -12,41 +16,47 @@ const SECRET = process.env.JWT_KEY;
 const User = {
 
   //USER SIGNUP controller
-  async signUp(req, res) {
+async signUp(req, res) {
 
-    try{
+   const { error } = checkSignup.validate(req.body);
+     if (error) return res.status(400)
+        .json({
+        status:400,
+        'error':error.details[0].message});
 
-      const { error } = checkSignup.validate(req.body);
-    if (error) return res.status(400)
-      .json({
-      status:400,
-      'error':error.details[0].message});
+    const { id,email, first_name, last_name, password, phoneNumber, address, is_admin, createdOn}= req.body     
+    const hashedPasword = await bcrypt.hash(req.body.password, 10);
 
-    const userExist = await userModel.findOne(req.body.email);
-    if (userExist) return res.status(409)
-      .json({
-            status:409,
-            'error':'Email address has been used'
-          });
+  try{  
 
-    const newUser = await userModel.createUser(req.body);
-    
-    newUser.password = await bcrypt.hash(req.body.password, 10);
+    const userExist = await pool.query(query.findUserByEmail(/*req.body.email*/email));
+      if (userExist.rowCount) return res.status(409)
+          .json({
+                status:409,
+                'error':'Email address has been used'
+              });
+
+
+    let newUser = await pool.query(query.createUser(id, email, first_name, last_name, hashedPasword, phoneNumber, address, is_admin, createdOn)); /*pool.query(creatQuery,values);*/
+        newUser = newUser.rows[0];
 
     const token = jwt.sign({id: newUser.id, is_admin: newUser.is_admin}, SECRET, { expiresIn: '24h' });
 
-    return res.header('x-auth-token', token).status(201).json({
-          status: 201,
-          data: {
-            token,
-            newUser
-          }
-        });
+      return res.header('x-auth-token', token).status(201).json({
+              status: 201,
+              data: {
+                token,
+                newUser
+              }
+            });
 
-    }catch(error){
-      console.log(error);
-    }  
-},
+        }catch(error){
+          
+          console.log(error);
+     }  
+   },
+
+
 
   //USER SIGNIN controller
   async signIn(req, res) {    
@@ -59,7 +69,7 @@ const User = {
       status:400,
       error:error.details[0].message});
 
-    const user = await userModel.findOne(req.body.email);
+    const user = await pool.query(query.findUserByEmail(req.body.email));
     if (!user) return res.status(401)
       .json({
       status:401,
