@@ -16,7 +16,18 @@ const query = {
     values: [email]
   }),
 
+	//PROPERTY
+   createProperty: (id, owner, status, state, city, address, type, image_url, createdOn) => ({
+   	text:`INSERT INTO 
+    property (id, owner, status, state, city, address, type, image_url, createdOn) 
+    VALUES ($1, $2, $3, $4, $5, $6, $7 ,$8, $9) RETURNING *`,
+    values: [uuidv4(), owner, status, state, city, address, type, image_url, moment(new Date())]
+   }),	
 
+   /* findPropByAddress: userid => ({
+    text: `SELECT * FROM property WHERE id = $1`,
+    values: [address]
+  }),*/
 
 }
 

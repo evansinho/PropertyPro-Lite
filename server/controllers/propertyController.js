@@ -1,5 +1,8 @@
+import moment from 'moment';
+import uuidv4 from 'uuid/v4';
+import pool from '../utilities/connection';
 import _ from 'lodash';
-import propertyModel from '../models/propertyModel';
+/*import propertyModel from '../models/propertyModel';*/
 import { checkProperty } from '../middleware/inputValidator';
 import dotenv from 'dotenv';
 import cloudinary from 'cloudinary';
@@ -19,41 +22,51 @@ const Property = {
 
     try{
 
-      if (!req.file) return res.status(400).send('no image uploaded');
-
       const { error } = checkProperty.validate(req.body);
        if (error) return res.status(400)
         .json({
            status:400,
             'error':error.details[0].message});
-
-      const propertyExist = await propertyModel.findAddress(req.body.address);
-            if (propertyExist) return res.status(409)
-              .json({
-                    status:409,
-                    'error':'property AD exist'
-                  });
-
+      if (!req.file) return res.status(400).send('no image uploaded');
+  
       const imageFile = await cloudinary.uploader.upload(req.file.path, (result) =>{
             return req.body.image_url = result.secure_url;
-          });     
+          });
+      const upload = imageFile.secure_url;
 
-     const newProperty = await propertyModel.createProperty(req.body);
-        newProperty.image_url = imageFile.secure_url;
+      const creatQuery = `INSERT INTO 
+            property (id, owner, status, state, city, address, type, image_url, createdOn) 
+            VALUES ($1, $2, $3, $4, $5, $6, $7 ,$8, $9) RETURNING *`
+      const values = [
+            uuidv4(),
+            req.user.id,
+            req.body.status,
+            req.body.state,
+            req.body.city,
+            req.body.address,
+            req.body.type,
+            upload,
+            moment(new Date())
+      ];
 
-    return res.status(201).json({
-          status: 201,
-          data: {
-            newProperty
+         
+       const newProperty = await pool.query(creatQuery,values);
+       const property = newProperty.rows[0];
+
+          return res.status(201).json({
+                status: 201,
+                data: {
+                  property
+                }
+              });
+          }catch(error){
+            console.log(error);
           }
-        });
-    }catch(error){
-      console.log(error);
-    }
   },
+/*id, owner, status, state, city, address, type, upload, createdOn*/
 
 
-
+/*
     //DELETE PROPERTY AD
   async delete(req,res){
 
@@ -79,9 +92,9 @@ const Property = {
       console.log(error);
      }
    },
+*/
 
-
-     //UPDATE PROPERTY AD
+    /* //UPDATE PROPERTY AD
   	async update (req, res){
 
   			try{
@@ -106,8 +119,8 @@ const Property = {
   				console.log(error);
   			}
 	
-  	     },
-
+  	     },*/
+/*
   	 //MARK PROPERTY AD AS SOLD
 
   	 async mark(req, res){
@@ -133,9 +146,9 @@ const Property = {
   				console.log(error);
   			}
 	
-  	 },
+  	 },*/
 
-     //GET ALL PROPERTY
+    /* //GET ALL PROPERTY
 
   	  async getAll(req, res){
 
@@ -171,9 +184,9 @@ const Property = {
   			}catch(error){
   				console.log(error);
   			}
-   },
+   },*/
 
-  	 // GET A SPECIFIC PROPERTY  
+  	/* // GET A SPECIFIC PROPERTY  
   	 
   	  async getAProperty(req, res){
 
@@ -196,7 +209,7 @@ const Property = {
   				console.log(error);
   			}
 	
-  	 },  
+  	 },  */
 
       
 }
