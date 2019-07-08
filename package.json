@@ -56,7 +56,8 @@
     "nodemon": "^1.19.1",
     "pg": "^7.11.0",
     "prettier": "^1.13.0",
-    "uuid": "^3.3.2"
+    "uuid": "^3.3.2",
+    "uuidv4": "^4.0.0"
   },
   "devDependencies": {
     "codeclimate-test-reporter": "^0.5.1",
