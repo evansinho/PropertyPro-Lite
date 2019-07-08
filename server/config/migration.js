@@ -14,8 +14,7 @@ const migration = `
 	  password varchar(100) NOT NULL,
 	  phoneNumber NUMERIC NOT NULL,
 	  address TEXT NOT NULL,
-	  is_admin BOOLEAN DEFAULT FALSE,
-	  createdOn TIMESTAMP NOT NULL
+	  is_admin BOOLEAN DEFAULT FALSE
 	);
 
  
@@ -30,7 +29,7 @@ const migration = `
 	  address TEXT NOT NULL,
 	  type TEXT NOT NULL,
 	  image_url  TEXT NOT NULL,
-	  createdOn TIMESTAMP NOT NULL
+	  created_on TIMESTAMP NOT NULL
 	);
 
 
@@ -40,9 +39,9 @@ const migration = `
 	CREATE TABLE flags (
 	  id UUID PRIMARY KEY,
 	  propery_id UUID REFERENCES property(id) NOT NULL,
+	  created_on TIMESTAMP NOT NULL,
 	  reason TEXT NOT NULL,
-	  description TEXT NOT NULL,
-	  createdOn TIMESTAMP NOT NULL
+	  description TEXT NOT NULL
 	);
 
 `;

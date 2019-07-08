@@ -13,8 +13,6 @@ dotenv.config();
 cloudinary.config(process.env.CLOUDINARY_URL);
 
 
-
-
 const Property = {
 
   //CREATE PROPERTY
@@ -25,8 +23,9 @@ const Property = {
       const { error } = checkProperty.validate(req.body);
        if (error) return res.status(400)
         .json({
-           status:400,
+             status:400,
             'error':error.details[0].message});
+
       if (!req.file) return res.status(400).send('no image uploaded');
   
       const imageFile = await cloudinary.uploader.upload(req.file.path, (result) =>{
@@ -35,7 +34,7 @@ const Property = {
       const upload = imageFile.secure_url;
 
       const creatQuery = `INSERT INTO 
-            property (id, owner, status, state, city, address, type, image_url, createdOn) 
+            property (id, owner, status, state, city, address, type, image_url, created_on) 
             VALUES ($1, $2, $3, $4, $5, $6, $7 ,$8, $9) RETURNING *`
       const values = [
             uuidv4(),
@@ -62,44 +61,58 @@ const Property = {
           }catch(error){
             console.log(error);
           }
-  },
-/*id, owner, status, state, city, address, type, upload, createdOn*/
+      },
 
-
-/*
     //DELETE PROPERTY AD
   async delete(req,res){
 
-    try{
+        try{
 
-    const property = await propertyModel.findOne(req.params.id);
-       if (!property) return res.status(404)
-            .json({
-              status:404,
-              error: 'property not found'
-            });
+          const deleteQuery = `DELETE FROM property WHERE id=$1 AND owner = $2 returning *`;
 
-    const deleteProperty = await propertyModel.delete(req.params.id);
-       return res.status(204)
-          .json({
-          	status:204,
-          	data:{
-          		message: 'propert advert deleted'
-          	}	
-          });
+          const deleteProperty = await pool.query(deleteQuery,[req.params.id, req.user.id]);
+             if (!deleteProperty.rowCount) return res.status(404)
+                  .json({
+                    status:404,
+                    error: 'property not found'
+                  });
 
-    }catch(error){
-      console.log(error);
-     }
-   },
-*/
+              return res.status(204)
+              .send({
+                status:204,
+                message: 'property advert deleted'
+              });
+
+
+        }catch(error){
+            console.log(error);
+        }
+
+      }
+
+
+
+
+ 
+
+
+
+      
+}
+  
+
+module.exports = Property;
+
+
+
+
 
     /* //UPDATE PROPERTY AD
-  	async update (req, res){
+    async update (req, res){
 
-  			try{
+        try{
 
- 		const property = await propertyModel.findOne(req.params.id);
+    const property = await propertyModel.findOne(req.params.id);
            if (!property) return res.status(404)
                 .json({
                   status:404,
@@ -115,19 +128,19 @@ const Property = {
                     }
                    });
 
-  			}catch(error){
-  				console.log(error);
-  			}
-	
-  	     },*/
+        }catch(error){
+          console.log(error);
+        }
+  
+         },*/
 /*
-  	 //MARK PROPERTY AD AS SOLD
+     //MARK PROPERTY AD AS SOLD
 
-  	 async mark(req, res){
+     async mark(req, res){
 
-  			try{
+        try{
 
- 		const property = await propertyModel.findOne(req.params.id);
+    const property = await propertyModel.findOne(req.params.id);
            if (!property) return res.status(404)
                 .json({
                   status:404,
@@ -142,22 +155,22 @@ const Property = {
                      changeStatus
                    });
 
-  			}catch(error){
-  				console.log(error);
-  			}
-	
-  	 },*/
+        }catch(error){
+          console.log(error);
+        }
+  
+     },*/
 
     /* //GET ALL PROPERTY
 
-  	  async getAll(req, res){
+      async getAll(req, res){
 
-  			try{
+        try{
 
           let response = [];
 
    
-        	const properties = await propertyModel.findAll();
+          const properties = await propertyModel.findAll();
 
           if(typeof req.query.type != undefined){
 
@@ -175,22 +188,22 @@ const Property = {
             response = properties;
           }
 
-     			return res.status(200)
-     			 .json({
-     			 	status:200,
-     			 	data:response
-     			 	});
+          return res.status(200)
+           .json({
+            status:200,
+            data:response
+            });
 
-  			}catch(error){
-  				console.log(error);
-  			}
+        }catch(error){
+          console.log(error);
+        }
    },*/
 
-  	/* // GET A SPECIFIC PROPERTY  
-  	 
-  	  async getAProperty(req, res){
+    /* // GET A SPECIFIC PROPERTY  
+     
+      async getAProperty(req, res){
 
-  			try{
+        try{
 
         const oneProperty = await propertyModel.findOne(req.params.id);
          if (!oneProperty) return res.status(404)
@@ -199,21 +212,14 @@ const Property = {
                   error: 'property not found'
                 });
 
-   			 return res.status(200)
-   			 .json({
-   			 	status:200,
-   			 	data:[oneProperty]
-   			 	});
-   			
-  			}catch(error){
-  				console.log(error);
-  			}
-	
-  	 },  */
-
-      
-}
+         return res.status(200)
+         .json({
+          status:200,
+          data:[oneProperty]
+          });
+        
+        }catch(error){
+          console.log(error);
+        }
   
-
-module.exports = Property;
-
+     },  */
