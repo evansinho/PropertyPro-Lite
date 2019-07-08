@@ -2,7 +2,6 @@ import dotenv from 'dotenv';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import pool from '../utilities/connection';
-import query from '../utilities/queries';
 /*import userModel from '../models/userModel';*/
 import { checkSignup, checkSignin } from '../middleware/inputValidator';
 import moment from 'moment';
@@ -26,11 +25,26 @@ async signUp(req, res) {
         status:400,
         'error':error.details[0].message});
 
-    const { id,email, first_name, last_name, password, phoneNumber, address, is_admin, createdOn}= req.body     
-    const hashedPasword = await bcrypt.hash(password, 10);
+    const hashedPasword = await bcrypt.hash(req.body.password, 10);
+
+    const text = 'SELECT * FROM users WHERE email = $1';
+     const creatQuery = `INSERT INTO 
+            users (id, email, first_name, last_name, password, phoneNumber, address, is_admin, createdOn) 
+            VALUES ($1, $2, $3, $4, $5, $6, $7 ,$8, $9) RETURNING *`;
+      const values = [
+            uuidv4(),
+            req.body.email,
+            req.body.first_name,
+            req.body.last_name,
+            hashedPasword,
+            req.body.phoneNumber,
+            req.body.address,
+            req.body.is_admin,
+            moment(new Date())
+      ];
 
 
-    const userExist = await pool.query(query.findUserByEmail(email));
+    const userExist = await pool.query(text,[req.body.email]);
       if (userExist.rowCount) return res.status(409)
           .json({
                 status:409,
@@ -38,7 +52,7 @@ async signUp(req, res) {
               });
 
 
-    let newUser = await pool.query(query.createUser(id, email, first_name, last_name, hashedPasword, phoneNumber, address, is_admin, createdOn)); 
+    let newUser = await pool.query(creatQuery, values); 
         newUser = newUser.rows[0];
 
     const token = jwt.sign({id: newUser.id, is_admin: newUser.is_admin}, SECRET, { expiresIn: '24h' });
@@ -71,8 +85,9 @@ async signIn(req, res) {
           status:400,
           error:error.details[0].message});
 
+    const text = 'SELECT * FROM users WHERE email = $1';    
 
-    const user = await pool.query(query.findUserByEmail(req.body.email));
+    const user = await pool.query(text,[req.body.email]);
     if (!user.rowCount) return res.status(401)
       .json({
       status:401,

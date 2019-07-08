@@ -26,6 +26,7 @@ const migration = `
 	  owner UUID REFERENCES users(id) NOT NULL,
 	  status TEXT NOT NULL,
 	  state TEXT NOT NULL,
+	  city TEXT NOT NULL,
 	  address TEXT NOT NULL,
 	  type TEXT NOT NULL,
 	  image_url  TEXT NOT NULL,
