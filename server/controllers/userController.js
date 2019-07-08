@@ -18,18 +18,19 @@ const User = {
   //USER SIGNUP controller
 async signUp(req, res) {
 
-   const { error } = checkSignup.validate(req.body);
+  try{  
+
+    const { error } = checkSignup.validate(req.body);
      if (error) return res.status(400)
         .json({
         status:400,
         'error':error.details[0].message});
 
     const { id,email, first_name, last_name, password, phoneNumber, address, is_admin, createdOn}= req.body     
-    const hashedPasword = await bcrypt.hash(req.body.password, 10);
+    const hashedPasword = await bcrypt.hash(password, 10);
 
-  try{  
 
-    const userExist = await pool.query(query.findUserByEmail(/*req.body.email*/email));
+    const userExist = await pool.query(query.findUserByEmail(email));
       if (userExist.rowCount) return res.status(409)
           .json({
                 status:409,
@@ -37,7 +38,7 @@ async signUp(req, res) {
               });
 
 
-    let newUser = await pool.query(query.createUser(id, email, first_name, last_name, hashedPasword, phoneNumber, address, is_admin, createdOn)); /*pool.query(creatQuery,values);*/
+    let newUser = await pool.query(query.createUser(id, email, first_name, last_name, hashedPasword, phoneNumber, address, is_admin, createdOn)); 
         newUser = newUser.rows[0];
 
     const token = jwt.sign({id: newUser.id, is_admin: newUser.is_admin}, SECRET, { expiresIn: '24h' });
@@ -51,7 +52,7 @@ async signUp(req, res) {
             });
 
         }catch(error){
-          
+
           console.log(error);
      }  
    },
@@ -59,23 +60,25 @@ async signUp(req, res) {
 
 
   //USER SIGNIN controller
-  async signIn(req, res) {    
+async signIn(req, res) {    
 
-    try{
+  try{
+
 
     const { error } = checkSignin.validate(req.body);
-    if (error) return res.status(400)
-      .json({
-      status:400,
-      error:error.details[0].message});
+        if (error) return res.status(400)
+          .json({
+          status:400,
+          error:error.details[0].message});
+
 
     const user = await pool.query(query.findUserByEmail(req.body.email));
-    if (!user) return res.status(401)
+    if (!user.rowCount) return res.status(401)
       .json({
       status:401,
       error:'Invalid email or password.'});
 
-    const validPassword = await bcrypt.compare(req.body.password,  user.password);
+    const validPassword = await bcrypt.compare(req.body.password,  user.rows[0].password);
     if (!validPassword) return res.status(401)
       .json({
         status:401,
@@ -90,7 +93,9 @@ async signUp(req, res) {
           }
         });
       }catch(error){
+
     console.log(error)
+    
     }
  }
 
