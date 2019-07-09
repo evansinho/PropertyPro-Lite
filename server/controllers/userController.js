@@ -21,7 +21,7 @@ async signUp(req, res) {
 
     const { error } = checkSignup.validate(req.body);
      if (error) return res.status(400)
-        .json({
+        .send({
         status:400,
         'error':error.details[0].message});
 
@@ -45,7 +45,7 @@ async signUp(req, res) {
 
     const userExist = await pool.query(text,[req.body.email]);
       if (userExist.rowCount) return res.status(409)
-          .json({
+          .send({
                 status:409,
                 'error':'Email address has been used'
               });
@@ -56,7 +56,8 @@ async signUp(req, res) {
 
     const token = jwt.sign({id: newUser.id, is_admin: newUser.is_admin}, SECRET, { expiresIn: '24h' });
 
-      return res.header('x-auth-token', token).status(201).json({
+      return res.header('x-auth-token', token).status(201)
+            .send({
               status: 201,
               data: {
                 token,
@@ -80,7 +81,7 @@ async signIn(req, res) {
 
     const { error } = checkSignin.validate(req.body);
         if (error) return res.status(400)
-          .json({
+          .send({
           status:400,
           error:error.details[0].message});
 
@@ -88,19 +89,20 @@ async signIn(req, res) {
 
     const user = await pool.query(text,[req.body.email]);
     if (!user.rowCount) return res.status(401)
-      .json({
+      .send({
       status:401,
       error:'Invalid email or password.'});
 
     const validPassword = await bcrypt.compare(req.body.password,  user.rows[0].password);
     if (!validPassword) return res.status(401)
-      .json({
+      .send({
         status:401,
         error:'Invalid email or password.'});
 
     const token = jwt.sign(req.body, SECRET, { expiresIn: '1hr' });
 
-    return res.header('x-auth-token', token).status(200).json({
+    return res.header('x-auth-token', token).status(200)
+        .send({
           status: 200,
           data: {
             token,

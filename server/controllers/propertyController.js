@@ -22,7 +22,7 @@ const Property = {
 
       const { error } = checkProperty.validate(req.body);
        if (error) return res.status(400)
-        .json({
+        .send({
              status:400,
             'error':error.details[0].message});
 
@@ -52,7 +52,7 @@ const Property = {
        const newProperty = await pool.query(creatQuery,values);
        const property = newProperty.rows[0];
 
-          return res.status(201).json({
+          return res.status(201).send({
                 status: 201,
                 data: {
                   property
@@ -63,6 +63,7 @@ const Property = {
           }
       },
 
+
     //DELETE PROPERTY AD
   async delete(req,res){
 
@@ -72,7 +73,7 @@ const Property = {
 
           const deleteProperty = await pool.query(deleteQuery,[req.params.id, req.user.id]);
              if (!deleteProperty.rowCount) return res.status(404)
-                  .json({
+                  .send({
                     status:404,
                     error: 'property not found'
                   });
@@ -87,8 +88,56 @@ const Property = {
         }catch(error){
             console.log(error);
         }
+      },
 
-      }
+
+
+    //UPDATE PROPERTY AD
+  async update (req, res){
+
+        try{
+
+        const findById = `SELECT * FROM property WHERE id=$1 AND owner = $2`; 
+        const updateQuery =`UPDATE property
+                  SET status=$1,state=$2,city=$3,address=$4,type=$5,image_url=$6,created_on=$7
+                  WHERE id=$8 AND owner = $9 returning *`; 
+
+        const { rows } = await pool.query(findById, [req.params.id, req.user.id]);
+               if (!rows[0]) return res.status(404)
+                    .send({
+                      status:404,
+                      error: 'property not found'
+                    });
+
+
+        const values = [
+                req.body.status || rows[0].status,
+                req.body.state || rows[0].state,
+                req.body.city || rows[0].city,
+                req.body.address || rows[0].address,
+                req.body.type || rows[0].type,
+                req.body.image_url || rows[0].image_url,
+                moment(new Date()),
+                req.params.id,
+                req.user.id
+               ];
+
+        const response = await pool.query(updateQuery,values);
+        const updateProperty = response.rows[0];
+
+              return res.status(200)
+                    .send({
+                    status:200,
+                    data:{
+                      updateProperty
+                     }
+                  });
+
+              }catch(error){
+                console.log(error);
+              }
+        
+         },
 
 
 
@@ -104,35 +153,6 @@ const Property = {
 module.exports = Property;
 
 
-
-
-
-    /* //UPDATE PROPERTY AD
-    async update (req, res){
-
-        try{
-
-    const property = await propertyModel.findOne(req.params.id);
-           if (!property) return res.status(404)
-                .json({
-                  status:404,
-                  error: 'property not found'
-                });
-
-        const updatedProperty = await propertyModel.update(req.params.id, req.body);
-          return res.status(200)
-                .json({
-                    status:200,
-                    data:{
-                     updatedProperty
-                    }
-                   });
-
-        }catch(error){
-          console.log(error);
-        }
-  
-         },*/
 /*
      //MARK PROPERTY AD AS SOLD
 
