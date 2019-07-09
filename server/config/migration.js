@@ -37,8 +37,8 @@ const migration = `
 	/*Table schema for table flags */
 	DROP TABLE IF EXISTS flags CASCADE;
 	CREATE TABLE flags (
-	  id UUID PRIMARY KEY,
-	  propery_id UUID REFERENCES property(id) NOT NULL,
+	  id UUID PRIMARY KEY NOT NULL,
+	  property_id UUID NOT NULL,
 	  created_on TIMESTAMP NOT NULL,
 	  reason TEXT NOT NULL,
 	  description TEXT NOT NULL
