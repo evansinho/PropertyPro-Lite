@@ -185,11 +185,34 @@ const Property = {
          },
 
 
+        
 
+   // GET A SPECIFIC PROPERTY  
+     
+      async getAProperty(req, res){
 
- 
+        try{
+            const findById = `SELECT * FROM property WHERE id=$1 `;
+            const foundProp = await pool.query(findById,[req.params.id]);
+            const propExist =foundProp.rows[0];
 
+            if (propExist.rowCount < 1) return res.status(404)
+                    .send({
+                      status:404,
+                      error: 'property not found'
+                    });
 
+               return res.status(200)
+               .json({
+                status:200,
+                data:propExist
+                });
+              
+              }catch(error){
+                console.log(error);
+            }
+      
+          },
 
       
 }
@@ -198,35 +221,8 @@ const Property = {
 module.exports = Property;
 
 
-/*
-     //MARK PROPERTY AD AS SOLD
 
-     async mark(req, res){
-
-        try{
-
-    const property = await propertyModel.findOne(req.params.id);
-           if (!property) return res.status(404)
-                .json({
-                  status:404,
-                  error: 'property not found'
-                });
-
-        const markProperty = await propertyModel.update(req.params.id, req.body);
-        const changeStatus = await _.pick(markProperty,['status']);
-          return res.status(200)
-                .json({
-                    status:200,
-                     changeStatus
-                   });
-
-        }catch(error){
-          console.log(error);
-        }
-  
-     },*/
-
-    /* //GET ALL PROPERTY
+/*      //GET ALL PROPERTY
 
       async getAll(req, res){
 
@@ -234,8 +230,13 @@ module.exports = Property;
 
           let response = [];
 
+          const allPropQuery = 'SELECT * FROM property where owner = $1';
+
    
-          const properties = await propertyModel.findAll();
+           const { rows } = await pool.query(allPropQuery,[req.user.id]);
+           const properties = rows;
+
+
 
           if(typeof req.query.type != undefined){
 
@@ -262,29 +263,4 @@ module.exports = Property;
         }catch(error){
           console.log(error);
         }
-   },*/
-
-    /* // GET A SPECIFIC PROPERTY  
-     
-      async getAProperty(req, res){
-
-        try{
-
-        const oneProperty = await propertyModel.findOne(req.params.id);
-         if (!oneProperty) return res.status(404)
-                .json({
-                  status:404,
-                  error: 'property not found'
-                });
-
-         return res.status(200)
-         .json({
-          status:200,
-          data:[oneProperty]
-          });
-        
-        }catch(error){
-          console.log(error);
-        }
-  
-     },  */
+     }*/
