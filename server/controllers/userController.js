@@ -29,7 +29,7 @@ async signUp(req, res) {
 
     const text = 'SELECT * FROM users WHERE email = $1';
      const creatQuery = `INSERT INTO 
-            users (id, email, first_name, last_name, password, phoneNumber, address, is_admin) 
+            users (id, email, first_name, last_name, password, phone_number, address, is_admin) 
             VALUES ($1, $2, $3, $4, $5, $6, $7 ,$8) RETURNING *`;
       const values = [
             uuidv4(),
@@ -37,7 +37,7 @@ async signUp(req, res) {
             req.body.first_name,
             req.body.last_name,
             hashedPasword,
-            req.body.phoneNumber,
+            req.body.phone_number,
             req.body.address,
             req.body.is_admin
       ];

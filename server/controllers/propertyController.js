@@ -139,8 +139,7 @@ const Property = {
         
          },
 
-       //MARK PROPERTY AD AS SOLD
-
+    //MARK PROPERTY AD AS SOLD
      async mark(req, res){
 
         try{
@@ -214,15 +213,9 @@ const Property = {
       
           },
 
-      
-}
-  
-
-module.exports = Property;
 
 
-
-/*      //GET ALL PROPERTY
+       //GET ALL PROPERTY
 
       async getAll(req, res){
 
@@ -232,23 +225,16 @@ module.exports = Property;
 
           const allPropQuery = 'SELECT * FROM property where owner = $1';
 
-   
-           const { rows } = await pool.query(allPropQuery,[req.user.id]);
-           const properties = rows;
-
-
+          const { rows } = await pool.query(allPropQuery,[req.user.id]);
+          const properties = rows;
 
           if(typeof req.query.type != undefined){
-
-            properties.filter( property =>{
-
+            response = properties.filter( property =>{
               if(property.type === req.query.type){
-                response.push(property);
+                  return property 
               }
             })
           }
-
-          response = _.uniqBy(response, 'id');
 
           if (Object.keys(req.query).length === 0){
             response = properties;
@@ -263,4 +249,12 @@ module.exports = Property;
         }catch(error){
           console.log(error);
         }
-     }*/
+     }    
+
+      
+}
+  
+
+module.exports = Property;
+
+

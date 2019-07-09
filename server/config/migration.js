@@ -12,7 +12,7 @@ const migration = `
 	  first_name TEXT NOT NULL,
 	  last_name TEXT NOT NULL,
 	  password varchar(100) NOT NULL,
-	  phoneNumber NUMERIC NOT NULL,
+	  phone_number NUMERIC NOT NULL,
 	  address TEXT NOT NULL,
 	  is_admin BOOLEAN DEFAULT FALSE
 	);
