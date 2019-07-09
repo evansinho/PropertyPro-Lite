@@ -5,7 +5,7 @@ import pool from '../utilities/connection';
 /*import userModel from '../models/userModel';*/
 import { checkSignup, checkSignin } from '../middleware/inputValidator';
 import moment from 'moment';
-import uuidv4 from 'uuid/v4';
+import uuidv4 from 'uuidv4';
 
 dotenv.config();
 const SECRET = process.env.JWT_KEY;
@@ -28,7 +28,7 @@ async signUp(req, res) {
     const hashedPasword = await bcrypt.hash(req.body.password, 10);
 
     const text = 'SELECT * FROM users WHERE email = $1';
-     const creatQuery = `INSERT INTO 
+    const createQuery = `INSERT INTO 
             users (id, email, first_name, last_name, password, phone_number, address, is_admin) 
             VALUES ($1, $2, $3, $4, $5, $6, $7 ,$8) RETURNING *`;
       const values = [
@@ -51,7 +51,7 @@ async signUp(req, res) {
               });
 
 
-    let newUser = await pool.query(creatQuery, values); 
+    let newUser = await pool.query(createQuery, values); 
         newUser = newUser.rows[0];
 
     const token = jwt.sign({id: newUser.id, is_admin: newUser.is_admin}, SECRET, { expiresIn: '24h' });

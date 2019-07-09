@@ -3,6 +3,7 @@ import 'babel-polyfill';
 import path from 'path';
 import Property from './routes/property';
 import Users from './routes/users';
+import Flag from './routes/flag';
 
 // Instantiate the app
 const app = express(); 
@@ -17,6 +18,7 @@ app.use(express.static(path.join(__dirname, '../UI/')));
 
 app.use('/api/v1/auth', Users);
 app.use('/api/v1/property',Property);
+app.use('/api/v1/flag',Flag);
 
 
 app.use((err, req, res, next) => {
