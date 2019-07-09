@@ -102,7 +102,7 @@ const Property = {
                   SET status=$1,state=$2,city=$3,address=$4,type=$5,image_url=$6,created_on=$7
                   WHERE id=$8 AND owner = $9 returning *`; 
 
-        const { rows } = await pool.query(findById, [req.params.id, req.user.id]);
+        const { rows } = await pool.query(findById,[req.params.id, req.user.id]);
                if (!rows[0]) return res.status(404)
                     .send({
                       status:404,
@@ -137,6 +137,51 @@ const Property = {
                 console.log(error);
               }
         
+         },
+
+       //MARK PROPERTY AD AS SOLD
+
+     async mark(req, res){
+
+        try{
+
+          const findById = `SELECT * FROM property WHERE id=$1 AND owner = $2`; 
+          const markQuery =`UPDATE property
+                  SET status=$1,state=$2,city=$3,address=$4,type=$5,image_url=$6,created_on=$7
+                  WHERE id=$8 AND owner = $9 returning *`;  
+
+           const { rows } = await pool.query(findById,[req.params.id, req.user.id]);
+               if (!rows[0]) return res.status(404)
+                    .send({
+                      status:404,
+                      error: 'property not found'
+                    });
+                  
+             const values = [
+                req.body.status || rows[0].status,
+                req.body.state || rows[0].state,
+                req.body.city || rows[0].city,
+                req.body.address || rows[0].address,
+                req.body.type || rows[0].type,
+                req.body.image_url || rows[0].image_url,
+                moment(new Date()),
+                req.params.id,
+                req.user.id
+               ];     
+
+            const response = await pool.query(markQuery, values);
+            const markProperty = response.rows[0];
+            const changeStatus = await _.pick(markProperty,['status']);
+              return res.status(200)
+                    .json({
+                        status:200,
+                        changeStatus
+                       });
+
+            }catch(error){
+              console.log(error);
+            }
+      
          },
 
 
