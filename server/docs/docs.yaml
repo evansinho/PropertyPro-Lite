@@ -29,7 +29,6 @@ paths:
               password: $2b$10$yE7fqGmVHbllf9yNKpiK/OYyOM/TH7dqFwqg.2Ojg4F.740elC/P6
               phone_number: 07056389489
               Address: 19 ikorodu street lagos
-              is_admin: true
         409:
           description: Email has been used for another user
           example:
@@ -106,7 +105,7 @@ paths:
           required: true
           description: Body object representing a property advert created.
           schema:
-            $ref: "#/definitions/property" 
+            $ref: "#/definitions/propertyCreate" 
       responses:
         201:
           description: properties AD created successfully.
@@ -309,7 +308,7 @@ paths:
           name: body
           description: Body object representing the properties update information.
           schema:
-            $ref: "#/definitions/property/id"
+            $ref: "#/definitions/propertyUpdate"
       responses:
         200:
           description: Product Updated successfully.
@@ -410,6 +409,7 @@ paths:
           name: body
           description: Body object representing the properties update information.
           schema:
+            $ref: "#/definitions/propertyupdateOne" 
       responses:
         200:
           description: Product status Updated successfully.
@@ -456,7 +456,7 @@ paths:
           required: true
           description: Body object representing a flag advert created.
           schema:
-            $ref: "#/definitions/flag" 
+            $ref: "#/definitions/flagCreate" 
       responses:
         201:
           description: flag created successfully.
@@ -486,3 +486,172 @@ paths:
             message: Internal server error
             status: failure
 
+definitions:
+  signup:
+    title: 'User Sign Up Request'
+    type: object
+    properties:
+      email:
+        description: 'The email address of the user'
+        type: string
+      first_name:
+        description: 'The first_name of the user'
+        type: string
+      last_name:
+        description: 'The last_name of the user'
+        type: string  
+      password:
+        description: 'The password of the user'
+        type: string
+      phone_number:
+        description: 'The phone_number of the user'
+        type: integer
+      address:
+        description: 'The address of the user'
+        type: string  
+    example:
+        id: 7974r-yyeyhliu-holhuil
+        email: john.doe@yahoo.com
+        first_name: john
+        last_name: doe
+        password: user1234
+        phone_number: 9088356823
+        address: 5 ikoku road
+    required:
+        - email, first_name,last_name, password, phone_number,address
+
+  signin:
+    title: 'User Sign in Request'
+    type: object
+    properties:
+      email:
+        description: 'The email address of the user'
+        type: string
+      password:
+        description: 'The password of the user'
+        type: string
+    example:
+        email: john.doe@yahoo.com
+        password: user1234
+    required:
+        -  email, password
+
+  propertyCreate:
+    title: 'User can create property advert'
+    type: object
+    properties:
+      price:
+        description: 'The price of the property advert'
+        type: integer
+      owner:
+        description: 'The property ad owner id'
+        type: integer
+      state:
+        description: 'The state where the property is'
+        type: string 
+      status:
+        description: 'The status of  the property it can be either sold or available'
+        type: string    
+      city:
+        description: 'The city where the property is situated'
+        type: string
+      address:
+        description: 'The address of the property ad'
+        type: string
+      type:
+        description: 'The property type'
+        type: string 
+      image_url:
+        description: 'The property image'
+        type: string
+      created_on:
+        description: 'The date the property ad was created'
+        type: date      
+    example:
+        price: 23400000
+        owner: 6t6tyryru089u-88987
+        status: available
+        state: lagos
+        city: lagos
+        address: 3 old gra street
+        type: 2 bedroom
+        image_url: https://example/hhwhiocji.jpg
+        created_on: 2019-01-25T00:00:00.000Z
+    required:
+        - price, owner,status, state, city,addresss, type, image_url,created_on    
+
+  propertyUpdate:
+    title: 'User can update property advert'
+    type: object
+    properties:
+      price:
+        description: 'The price of the property advert'
+        type: integer
+      owner:
+        description: 'The property ad owner id'
+        type: integer
+      state:
+        description: 'The state where the property is'
+        type: string 
+      status:
+        description: 'The status of  the property it can be either sold or available'
+        type: string    
+      city:
+        description: 'The city where the property is situated'
+        type: string
+      address:
+        description: 'The address of the property ad'
+        type: string
+      type:
+        description: 'The property type'
+        type: string 
+      image_url:
+        description: 'The property image'
+        type: string    
+    example:
+        price: 23400000
+        owner: 6t6tyryru089u-88987
+        status: available
+        state: lagos
+        city: lagos
+        address: 3 old gra street
+        type: 2 bedroom
+        image_url: https://example/hhwhiocji.jpg
+
+  propertyupdateOne:      
+    title: 'User can mark property advert as sold'
+    type: object
+    properties:
+      status:
+        description: 'The status of  the property it can be either sold or available'
+        type: string    
+    example:
+        status: sold
+    required:
+      - status   
+
+  flagCreate:
+    title: 'User flag/report a property advert'
+    type: object
+    properties:
+      propert_id:
+        description: 'The id of the property advert'
+        type: integer
+      created_on:
+        description: 'The date the property ad was flaged'
+        type: date  
+      reason:
+        description: 'The reason for the report/flaging'
+        type: string
+      description:
+        description: 'the details of the report'
+        type: string 
+    example:
+        property_id: jvbsdhbj-sbkjdbk-sbjkbk
+        created_on: 2019-01-25T00:00:00.000Z
+        reason: outrageous prices
+        description: the landlords price is too much
+    required:
+        - property_id,created_on,reason,description    
+     
+        

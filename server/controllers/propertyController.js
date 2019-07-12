@@ -6,6 +6,12 @@ import _ from 'lodash';
 import { checkProperty } from '../middleware/inputValidator';
 import dotenv from 'dotenv';
 import cloudinary from 'cloudinary';
+import {createPropQuery, 
+        deleteQuery,
+        idCheckQuery,
+        updateQuery,
+        allPropQuery} from '../utilities/query';
+
 
 
 
@@ -33,9 +39,6 @@ const Property = {
           });
       const upload = imageFile.secure_url;
 
-      const creatQuery = `INSERT INTO 
-            property (id, owner,price, status, state, city, address, type, image_url, created_on) 
-            VALUES ($1, $2, $3, $4, $5, $6, $7 ,$8, $9,$10) RETURNING *`
       const values = [
             uuidv4(),
             req.user.id,
@@ -50,7 +53,7 @@ const Property = {
       ];
 
          
-       const newProperty = await pool.query(creatQuery,values);
+       const newProperty = await pool.query(createPropQuery,values);
        const property = newProperty.rows[0];
 
           return res.status(201).send({
@@ -69,8 +72,6 @@ const Property = {
   async delete(req,res){
 
         try{
-
-          const deleteQuery = `DELETE FROM property WHERE id=$1 AND owner = $2 returning *`;
 
           const deleteProperty = await pool.query(deleteQuery,[req.params.id, req.user.id]);
              if (!deleteProperty.rowCount) return res.status(404)
@@ -98,12 +99,7 @@ const Property = {
 
         try{
 
-        const findById = `SELECT * FROM property WHERE id=$1 AND owner = $2`; 
-        const updateQuery =`UPDATE property
-                  SET price=$1,status=$2,state=$3,city=$4,address=$5,type=$6,image_url=$7,created_on=$8
-                  WHERE id=$9 AND owner = $10 returning *`; 
-
-        const { rows } = await pool.query(findById,[req.params.id, req.user.id]);
+        const { rows } = await pool.query(idCheckQuery,[req.params.id, req.user.id]);
                if (!rows[0]) return res.status(404)
                     .send({
                       status:404,
@@ -144,14 +140,9 @@ const Property = {
     //MARK PROPERTY AD AS SOLD
      async mark(req, res){
 
-        try{
+        try{  
 
-          const findById = `SELECT * FROM property WHERE id=$1 AND owner = $2`; 
-          const markQuery =`UPDATE property
-                  SET price=$1,status=$2,state=$3,city=$4,address=$5,type=$6,image_url=$7,created_on=$8
-                  WHERE id=$9 AND owner = $10 returning *`;  
-
-           const { rows } = await pool.query(findById,[req.params.id, req.user.id]);
+           const { rows } = await pool.query(idCheckQuery,[req.params.id, req.user.id]);
                if (!rows[0]) return res.status(404)
                     .send({
                       status:404,
@@ -171,7 +162,7 @@ const Property = {
                 req.user.id
                ];     
 
-            const response = await pool.query(markQuery, values);
+            const response = await pool.query(updateQuery, values);
             const markProperty = response.rows[0];
             const changeStatus = await _.pick(markProperty,['status']);
               return res.status(200)
@@ -194,8 +185,7 @@ const Property = {
       async getAProperty(req, res){
 
         try{
-            const findById = `SELECT * FROM property WHERE id=$1 `;
-            const foundProp = await pool.query(findById,[req.params.id]);
+            const foundProp = await pool.query(idCheckQuery,[req.params.id,req.user.id]);
             const propExist =foundProp.rows[0];
 
             if (propExist.rowCount < 1) return res.status(404)
@@ -225,8 +215,6 @@ const Property = {
         try{
 
           let response = [];
-
-          const allPropQuery = 'SELECT * FROM property where owner = $1';
 
           const { rows } = await pool.query(allPropQuery,[req.user.id]);
           const properties = rows;
