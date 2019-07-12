@@ -34,11 +34,12 @@ const Property = {
       const upload = imageFile.secure_url;
 
       const creatQuery = `INSERT INTO 
-            property (id, owner, status, state, city, address, type, image_url, created_on) 
-            VALUES ($1, $2, $3, $4, $5, $6, $7 ,$8, $9) RETURNING *`
+            property (id, owner,price, status, state, city, address, type, image_url, created_on) 
+            VALUES ($1, $2, $3, $4, $5, $6, $7 ,$8, $9,$10) RETURNING *`
       const values = [
             uuidv4(),
             req.user.id,
+            req.body.price,
             req.body.status,
             req.body.state,
             req.body.city,
@@ -99,7 +100,7 @@ const Property = {
 
         const findById = `SELECT * FROM property WHERE id=$1 AND owner = $2`; 
         const updateQuery =`UPDATE property
-                  SET status=$1,state=$2,city=$3,address=$4,type=$5,image_url=$6,created_on=$7
+                  SET price=$1,status=$2,state=$3,city=$4,address=$5,type=$6,image_url=$7,created_on=$8
                   WHERE id=$8 AND owner = $9 returning *`; 
 
         const { rows } = await pool.query(findById,[req.params.id, req.user.id]);
@@ -111,6 +112,7 @@ const Property = {
 
 
         const values = [
+                req.body.price || rows[0].price,
                 req.body.status || rows[0].status,
                 req.body.state || rows[0].state,
                 req.body.city || rows[0].city,
@@ -146,7 +148,7 @@ const Property = {
 
           const findById = `SELECT * FROM property WHERE id=$1 AND owner = $2`; 
           const markQuery =`UPDATE property
-                  SET status=$1,state=$2,city=$3,address=$4,type=$5,image_url=$6,created_on=$7
+                  SET price=$1,status=$2,state=$3,city=$4,address=$5,type=$6,image_url=$7,created_on=$8
                   WHERE id=$8 AND owner = $9 returning *`;  
 
            const { rows } = await pool.query(findById,[req.params.id, req.user.id]);
@@ -157,6 +159,7 @@ const Property = {
                     });
                   
              const values = [
+                req.body.price || rows[0].price,
                 req.body.status || rows[0].status,
                 req.body.state || rows[0].state,
                 req.body.city || rows[0].city,
