@@ -14,9 +14,8 @@ const migration = `
 	  password varchar(100) NOT NULL,
 	  phone_number NUMERIC NOT NULL,
 	  address TEXT NOT NULL,
-	  is_admin BOOLEAN DEFAULT FALSE,
-	  /*resetPasswordToken VARCHAR(64),
-	  resetPasswordExpires TIMESTAMP WITH TIMEZONE*/
+	  resetPasswordToken VARCHAR(64),
+	  resetPasswordExpires TIMESTAMP 
 	);
 
  
