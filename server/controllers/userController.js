@@ -1,3 +1,6 @@
+import nodemailer from 'nodemailer';
+import async from 'async';
+import crypto from 'crypto';
 import dotenv from 'dotenv';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
@@ -21,7 +24,7 @@ async signUp(req, res) {
 
     const { error } = checkSignup.validate(req.body);
      if (error) return res.status(400)
-        .send({
+        .json({
         status:400,
         'error':error.details[0].message});
 
@@ -45,7 +48,7 @@ async signUp(req, res) {
 
     const userExist = await pool.query(text,[req.body.email]);
       if (userExist.rowCount) return res.status(409)
-          .send({
+          .json({
                 status:409,
                 'error':'Email address has been used'
               });
@@ -57,7 +60,7 @@ async signUp(req, res) {
     const token = jwt.sign({id: newUser.id, is_admin: newUser.is_admin}, SECRET, { expiresIn: '24h' });
 
       return res.header('x-auth-token', token).status(201)
-            .send({
+            .json({
               status: 201,
               data: {
                 token,
@@ -81,7 +84,7 @@ async signIn(req, res) {
 
     const { error } = checkSignin.validate(req.body);
         if (error) return res.status(400)
-          .send({
+          .json({
           status:400,
           error:error.details[0].message});
 
@@ -89,20 +92,20 @@ async signIn(req, res) {
 
     const user = await pool.query(text,[req.body.email]);
     if (!user.rowCount) return res.status(401)
-      .send({
+      .json({
       status:401,
       error:'Invalid email or password.'});
 
     const validPassword = await bcrypt.compare(req.body.password,  user.rows[0].password);
     if (!validPassword) return res.status(401)
-      .send({
+      .json({
         status:401,
         error:'Invalid email or password.'});
 
     const token = jwt.sign(req.body, SECRET, { expiresIn: '1hr' });
 
     return res.header('x-auth-token', token).status(200)
-        .send({
+        .json({
           status: 200,
           data: {
             token,
@@ -113,9 +116,82 @@ async signIn(req, res) {
     console.log(error)
     
     }
- }
+ },
+
+/*
+ //FORGOT PASSWORD 
+  forgot_password(req,res,next){
+    const text = 'SELECT * FROM users WHERE email = user.email';
+        async.waterfall([
+            function(done) {
+              crypto.randomBytes(20, function(err, buf) {
+                const token = buf.toString('hex');
+                done(err, token);
+              });
+            },
+
+        function(token, done) {
+          const user =  pool.query(text,[req.body.email]);
+              if (!user.rowCount) return res.status(409)
+                .send({
+                    status:409,
+                    'error':'User not found'
+                     });
+
+          const updateQuery =`UPDATE users
+                  SET resetPasswordToken=$1,resetPasswordExpires=$2,
+                  WHERE email=$3 *`;    
+
+          const values= [ 
+                    user.token,
+                    user.Date.now() + 3600000,
+                    user.email
+                      ];
+          const response =  pool.query(updateQuery, values);
+            return done(err, token, user);              
+
+        },
+
+        function(token, user, done) {
+            const smtpTransport = nodemailer.createTransport({
+              service: 'Gmail', 
+              auth: {
+                user: 'igiri.evanson@gmail.com',
+                pass: process.env.GMAILPASSWORD
+              }
+            })
+
+             const mailOptions = {
+                to: user.email,
+                from: 'igiri.evanson@gmail.com',
+                subject: 'PropertyPro Password Reset',
+                text: 'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
+                  'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
+                  'http://' + req.headers.host + '/reset_password/' + token + '\n\n' +
+                  'If you did not request this, please ignore this email and your password will remain unchanged.\n'
+              };  
+
+            smtpTransport.sendMail(mailOptions, function(err) {
+                  if(!err) return res.json({'success' 'An e-mail has been sent to ' + user.email + ' with further instructions.'});
+                            return done(err);
+                });
+               },
+            ], 
+            function(err) {
+              if (err) return
+              res.status(422).json({message:err});
+             });
+            }
+
+
+
+ async reset_password(req, res) {
+     
+      }*/
 
 
 };
+
+
 
 module.exports = User;

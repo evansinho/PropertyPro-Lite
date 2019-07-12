@@ -32,9 +32,9 @@ const Flag = {
         let newFlag = await pool.query(flagQuery, values); 
             newFlag = newFlag.rows[0];
         
-          return res.status(200)
+          return res.status(201)
               .send({
-                status: 200,
+                status: 201,
                 newFlag
                 }); 
 

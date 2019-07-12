@@ -1,0 +1,488 @@
+schemes:
+  - https
+paths:
+  /auth/signup:
+    post:
+      summary: 'Handles the creation of a new user account'
+      description: 'This endpoint creates a new user and persist the information to the database'
+      tags:
+        - Authentication
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: signup
+          required: true
+          description: "This is the request body object containing user's signup information"
+          schema:
+             $ref: '#/definitions/signup'
+      responses:
+        201:
+          description: User has been successfully registered
+          example:
+            status: success,
+            data:
+              id: t6try348r0934-0405490-787
+              email: doe@storemanager.com
+              first_name: john
+              last_name: Doe
+              password: $2b$10$yE7fqGmVHbllf9yNKpiK/OYyOM/TH7dqFwqg.2Ojg4F.740elC/P6
+              phone_number: 07056389489
+              Address: 19 ikorodu street lagos
+              is_admin: true
+        409:
+          description: Email has been used for another user
+          example:
+            message: Email address has been used
+            status: failure
+        400:
+          description: The provided input(s) are not supported
+          example:
+            error:
+              - Please provide a name
+              - Name must be atleast 2 characters long
+              - phone_number is invalid
+        500:
+          description: Internal server error
+          example:
+            message: Internal server error
+            status: failure
+
+
+  /auth/signin:
+    post:
+      summary: 'This endpoint authenticates the user.'
+      description: 'This authenticates the user and generates a jwt token for the user which would be needed to access other protected resource.'
+      tags:
+        - Authentication 
+      produces:
+        - application/json  
+      parameters:
+        - in: body
+          name: signin
+          required: true
+          description: This is the request body object containing user's signin information
+          schema:
+            $ref: '#/definitions/signin'
+      responses:
+        200:
+          description: User has been signin successfully
+          example:
+            status: success,
+            message: Signin successfully,
+            data:
+              token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.....,
+        401:
+          description: 'User not found in the database'
+          example:
+            message: Email address or password is incorrect
+            status: failure
+        400:
+          description: 'User has entered unprocessable input'
+          example:
+            error:
+              - Invalid email address entered
+              - Password should be atleast 5 characters
+        500:
+          description: 'Internal server error'
+          example:
+            message: Internal server error
+            status: failure
+
+
+  /property/:
+    post:
+      summary: creates a new property adverts
+      description: This endpoint creates a new property advert
+      tags:
+        - property 
+      produces:
+        - application/json
+      security:
+        - Bearer: []  
+      parameters:
+        - in: body
+          name: createProperty
+          required: true
+          description: Body object representing a property advert created.
+          schema:
+            $ref: "#/definitions/property" 
+      responses:
+        201:
+          description: properties AD created successfully.
+          example:
+            status: success,
+            message: properties AD created successfully.
+            data:
+              id: 6ygyrg78y-yt7yu89-65786
+              price: 24000000
+              owner: 6t6tyryru089u-88987
+              status: available
+              state: lagos
+              city: lagos
+              address: 3 old gra street
+              type: 2 bedroom
+              image_url: https://example/hhwhiocji.jpg
+              created_on: 2019-01-25T00:00:00.000Z
+        400:
+          description: 'Bad Request'
+          example:
+            error:
+              - Invalid image file entered
+              - provided fields are invalid      
+        401:
+          description: 'Authentication Error'
+          example:
+            message: Token/Header Error
+            status: failure
+        403:
+          description: User does not have the privilage to create a category
+          example:
+            message: Unauthorized Access. For admins/owner accounts only
+            status: failure    
+        500:
+          description: Internal server error
+          example:
+            message: Internal server error
+            status: failure
+
+    get:
+      summary: returns all property adverts
+      description: This endpoint retrieves all property AD
+      tags:
+        - property
+      produces:
+        - application/json
+      security:
+        - Bearer: []  
+      responses:
+        200:
+          description: All property retrieved successfully.
+          example:
+            status: success,
+            message: property return successfully.
+            data:
+              - id: 6ygyrg78y-yt7yu89-65786
+                price: 400000
+                owner: 6t6tyryru089u-88987
+                status: available
+                state: lagos
+                city: lagos
+                address: 3 old gra street
+                image_url: https://example/hhwhiocji.jpg
+                created_on: 2018-11-25T00:00:00.000Z
+              - id: 2hvhjb8u-79yhh-6rt78t76
+                price: 5000000
+                owner: knhjln-hhlj-8jihi8t798y7
+                status: available
+                state: cross-river
+                city: calabar
+                address: 3 ikorodu street
+                image_url: https://hightable.jpg
+                created_on: 2019-01-25T00:00:00.000Z
+        401:
+          description: 'Authentication Error'
+          example:
+            message: Token/Header Error
+            status: failure
+       
+        500:
+          description: Internal server error
+          example:
+            message: Internal server error
+            status: failure
+ 
+  /property?type=propType:
+    get:
+      summary: returns all specic property type adverts
+      description: This endpoint retrieves all specific property type AD
+      tags:
+        - property
+      produces:
+        - application/json
+      security:
+        - Bearer: []  
+      responses:
+        200:
+          description: All specific property type retrieved successfully.
+          example:
+            status: success,
+            message: specific property type returned successfully.
+            data:
+              - id: 6ygyrg78y-yt7yu89-65786
+                price: 23400000
+                owner: 6t6tyryru089u-88987
+                status: available
+                state: lagos
+                city: lagos
+                type: 3 bedroom 
+                address: 3 old gra street
+                image_url: https://example/hhwhiocji.jpg
+                created_on: 2018-11-25T00:00:00.000Z
+              - id: okojojjn-lkjhggyg-hytg5y
+                price: 9000000
+                owner: mnhkkhj-bjhjk-89y89hy78y
+                status: available
+                state: rivers
+                city: port-harcourt
+                type: 3 bedroom 
+                address: 100 rumuola street
+                image_url: https://bungalow/hhwhiocji.jpg
+                created_on: 2018-11-25T00:00:00.000Z 
+        401:
+          description: 'Authentication Error'
+          example:
+            message: Token/Header Error
+            status: failure
+       
+        500:
+          description: Internal server error
+          example:
+            message: Internal server error
+            status: failure   
+
+  /property/{id}:  
+    get:
+      summary: Retrieves a single property advert
+      description: This endpoint retrieves a single prperty AD
+      tags:
+        - property
+      produces:
+        - application/json
+      security:
+        - Bearer: []
+      parameters:
+        - in: path
+          name: id
+          type: integer
+          required: true
+          description: Unique property id
+      responses:
+        200:
+          description: Property retrieved successfully.
+          example:
+            status: success,
+            message: property retrieved successfully.
+            data:
+              id: 6ygyrg78y-yt7yu89-65786
+              price: 23400000
+              owner: 6t6tyryru089u-88987
+              status: available
+              state: lagos
+              city: lagos
+              address: 3 old gra street
+              type: 2 bedroom
+              image_url: https://example/hhwhiocji.jpg
+              created_on: 2019-01-25T00:00:00.000Z
+        401:
+          description: 'Authentication Error'
+          example:
+            message: Token/Header Error
+            status: failure
+        404:
+          description: 'property not found'
+          example:
+            message: property not found
+            status: failure
+        500:
+          description: Internal server error
+          example:
+            message: Internal server error
+            status: failure
+
+    patch:
+      summary: Updates a property advert
+      description: This endpoint updates a property ad in the properties resource
+      tags:
+        - property
+      produces:
+        - application/json
+      security:
+        - Bearer: []
+      parameters:
+        - in: path
+          name: id
+          type: integer
+          required: true
+          description: Unique product id
+        - in: body
+          name: body
+          description: Body object representing the properties update information.
+          schema:
+            $ref: "#/definitions/property/id"
+      responses:
+        200:
+          description: Product Updated successfully.
+          example:
+            status: success,
+            message: Product Updated successfully.
+            data:
+              id: 6ygyrg78y-yt7yu89-65786
+              price: 23400000
+              owner: 6t6tyryru089u-88987
+              status: available
+              state: lagos
+              city: lagos
+              address: 3 old gra street
+              type: 2 bedroom
+              image_url: https://example/hhwhiocji.jpg
+              created_on: 2019-01-25T00:00:00.000Z
+        401:
+          description: 'Authentication Error'
+          example:
+            message: Token/Header Error
+            status: failure
+        403:
+          description: User does not have the privilege to update a property AD
+          example:
+            message: Unauthorized Access. For admins accounts only
+            status: failure
+        404:
+          description: Bad Request
+          example:
+            message: The provided property id doesn't exists.
+            status: failure
+        500:
+          description: Internal server error
+          example:
+            message: Internal server error
+            status: failure
+
+    delete:
+      summary: Deletes a property AD from the database
+      description: This endpoint deletes a property from the property resources
+      tags:
+        - property
+      produces:
+        - application/json
+      security:
+        - Bearer: []
+      parameters:
+        - in: path
+          name: id
+          type: integer
+          required: true
+          description: Unique property id
+      responses:
+        200:
+          description: Property deleted successfully.
+          example:
+            status: success,
+            message: Property deleted successfully.
+        401:
+          description: 'Authentication Error'
+          example:
+            message: Token/Header Error
+            status: failure
+        403:
+          description: User does not have the privilage to delete a product
+          example:
+            message: Unauthorized Access. For admins/owner accounts only
+            status: failure
+        404:
+          description: 'property not found'
+          example:
+            message: property not found
+            status: failure    
+        500:
+          description: Internal server error
+          example:
+            message: Internal server error
+            status: failure          
+
+  /property/{id}/sold:
+    patch:
+      summary: Updates a property status to sold
+      description: This endpoint updates a property status from available to sold
+      tags:
+        - property
+      produces:
+        - application/json
+      security:
+        - Bearer: []
+      parameters:
+        - in: path
+          name: id
+          type: integer
+          required: true
+          description: Unique product id
+        - in: body
+          name: body
+          description: Body object representing the properties update information.
+          schema:
+      responses:
+        200:
+          description: Product status Updated successfully.
+          example:
+            status: success,
+            message: Product status Updated successfully.
+            data:
+              status: sold
+        401:
+          description: 'Authentication Error'
+          example:
+            message: Token/Header Error
+            status: failure
+        404:
+          description: Bad Request
+          example:
+            message: The provided property id doesn't exists.
+            status: failure    
+        403:
+          description: User does not have the privilege to update a property AD
+          example:
+            message: Unauthorized Access. For admins accounts only
+            status: failure   
+        500:
+          description: Internal server error
+          example:
+            message: Internal server error
+            status: failure             
+  
+
+/flag/:
+    post:
+      summary: creates a new flag/report 
+      description: This endpoint creates a new flag 
+      tags:
+        - flag 
+      produces:
+        - application/json
+      security:
+        - Bearer: []  
+      parameters:
+        - in: body
+          name: createflag
+          required: true
+          description: Body object representing a flag advert created.
+          schema:
+            $ref: "#/definitions/flag" 
+      responses:
+        201:
+          description: flag created successfully.
+          example:
+            status: success,
+            message: flag/report created successfully.
+            data:
+              id: 6ygyrg78y-yt7yu89-65786
+              property_id: jvbsdhbj-sbkjdbk-sbjkbk
+              created_on: 2019-01-25T00:00:00.000Z
+              reason: outrageous prices
+              description: the landlords price is too much
+        400:
+          description: 'Bad Request'
+          example:
+            error:
+              - incomplete details
+              - provided fields are invalid      
+        401:
+          description: 'Authentication Error'
+          example:
+            message: Token/Header Error
+            status: failure  
+        500:
+          description: Internal server error
+          example:
+            message: Internal server error
+            status: failure
+
