@@ -21,7 +21,7 @@ const swaggerDefinition = {
 				version: '1.0.0', 
 			    description:'Property Pro Lite is a platform where people can create and/or search properties for sale or rent.'
 					  	},
-				host: 'https://historic-biscayne-93397.herokuapp.com',
+				host: 'historic-biscayne-93397.herokuapp.com',
 			    basePath: '/api/v1'
 			};
 
