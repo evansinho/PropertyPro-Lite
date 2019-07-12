@@ -9,6 +9,11 @@ import pool from '../utilities/connection';
 import { checkSignup, checkSignin } from '../middleware/inputValidator';
 import moment from 'moment';
 import uuidv4 from 'uuidv4';
+import {createUserQuery, emailCheckQuery} from '../utilities/query';
+
+
+
+
 
 dotenv.config();
 const SECRET = process.env.JWT_KEY;
@@ -30,10 +35,6 @@ async signUp(req, res) {
 
     const hashedPasword = await bcrypt.hash(req.body.password, 10);
 
-    const text = 'SELECT * FROM users WHERE email = $1';
-    const createQuery = `INSERT INTO 
-            users (id, email, first_name, last_name, password, phone_number, address) 
-            VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *`;
       const values = [
             uuidv4(),
             req.body.email,
@@ -45,7 +46,7 @@ async signUp(req, res) {
       ];
 
 
-    const userExist = await pool.query(text,[req.body.email]);
+    const userExist = await pool.query(emailCheckQuery,[req.body.email]);
       if (userExist.rowCount) return res.status(409)
           .json({
                 status:409,
@@ -53,7 +54,7 @@ async signUp(req, res) {
               });
 
 
-    let newUser = await pool.query(createQuery, values); 
+    let newUser = await pool.query(createUserQuery, values); 
         newUser = newUser.rows[0];
 
     const token = jwt.sign({id: newUser.id}, SECRET, { expiresIn: '24h' });
@@ -85,11 +86,9 @@ async signIn(req, res) {
         if (error) return res.status(400)
           .json({
           status:400,
-          error:error.details[0].message});
+          error:error.details[0].message}); 
 
-    const text = 'SELECT * FROM users WHERE email = $1';    
-
-    const user = await pool.query(text,[req.body.email]);
+    const user = await pool.query(emailCheckQuery,[req.body.email]);
     if (!user.rowCount) return res.status(401)
       .json({
       status:401,
