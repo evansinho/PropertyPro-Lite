@@ -8,10 +8,10 @@ const SECRET = process.env.JWT_KEY;
 
 
 module.exports = function (req, res, next) {
-  const token = req.header('x-auth-token');
+  const token = req.header('token');
   if (!token) return res.status(401)
     .json({
-      status:400,
+      status:401,
       message:'Access denied. No token provided.'
     });
 

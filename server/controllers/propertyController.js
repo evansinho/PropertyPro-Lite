@@ -101,7 +101,7 @@ const Property = {
         const findById = `SELECT * FROM property WHERE id=$1 AND owner = $2`; 
         const updateQuery =`UPDATE property
                   SET price=$1,status=$2,state=$3,city=$4,address=$5,type=$6,image_url=$7,created_on=$8
-                  WHERE id=$8 AND owner = $9 returning *`; 
+                  WHERE id=$9 AND owner = $10 returning *`; 
 
         const { rows } = await pool.query(findById,[req.params.id, req.user.id]);
                if (!rows[0]) return res.status(404)
@@ -149,7 +149,7 @@ const Property = {
           const findById = `SELECT * FROM property WHERE id=$1 AND owner = $2`; 
           const markQuery =`UPDATE property
                   SET price=$1,status=$2,state=$3,city=$4,address=$5,type=$6,image_url=$7,created_on=$8
-                  WHERE id=$8 AND owner = $9 returning *`;  
+                  WHERE id=$9 AND owner = $10 returning *`;  
 
            const { rows } = await pool.query(findById,[req.params.id, req.user.id]);
                if (!rows[0]) return res.status(404)

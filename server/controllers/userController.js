@@ -1,6 +1,6 @@
-import nodemailer from 'nodemailer';
+/*import nodemailer from 'nodemailer';
 import async from 'async';
-import crypto from 'crypto';
+import crypto from 'crypto';*/
 import dotenv from 'dotenv';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
@@ -32,8 +32,8 @@ async signUp(req, res) {
 
     const text = 'SELECT * FROM users WHERE email = $1';
     const createQuery = `INSERT INTO 
-            users (id, email, first_name, last_name, password, phone_number, address, is_admin) 
-            VALUES ($1, $2, $3, $4, $5, $6, $7 ,$8) RETURNING *`;
+            users (id, email, first_name, last_name, password, phone_number, address) 
+            VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *`;
       const values = [
             uuidv4(),
             req.body.email,
@@ -41,8 +41,7 @@ async signUp(req, res) {
             req.body.last_name,
             hashedPasword,
             req.body.phone_number,
-            req.body.address,
-            req.body.is_admin
+            req.body.address
       ];
 
 
@@ -57,9 +56,9 @@ async signUp(req, res) {
     let newUser = await pool.query(createQuery, values); 
         newUser = newUser.rows[0];
 
-    const token = jwt.sign({id: newUser.id, is_admin: newUser.is_admin}, SECRET, { expiresIn: '24h' });
+    const token = jwt.sign({id: newUser.id}, SECRET, { expiresIn: '24h' });
 
-      return res.header('x-auth-token', token).status(201)
+      return res.header('token', token).status(201)
             .json({
               status: 201,
               data: {
@@ -104,7 +103,7 @@ async signIn(req, res) {
 
     const token = jwt.sign(req.body, SECRET, { expiresIn: '1hr' });
 
-    return res.header('x-auth-token', token).status(200)
+    return res.header('token', token).status(200)
         .json({
           status: 200,
           data: {
