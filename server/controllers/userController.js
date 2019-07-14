@@ -24,11 +24,11 @@ const User = {
 
   async signUp(req, res) {
     try{  
-      const { error } = checkSignup.validate(req.body);
+      /*const { error } = checkSignup.validate(req.body);
        if (error) return res.status(400)
           .json({
           status:400,
-          'error':error.details[0].message});
+          'error':error.details[0].message});*/
 
       const hashedPasword = await bcrypt.hash(req.body.password, 10);
 
@@ -70,11 +70,11 @@ const User = {
 
 async signIn(req, res) {    
   try{
-    const { error } = checkSignin.validate(req.body);
+    /*const { error } = checkSignin.validate(req.body);
         if (error) return res.status(400)
           .json({
           status:400,
-          error:error.details[0].message}); 
+          error:error.details[0].message}); */
 
     let user = await pool.query(emailCheckQuery,[req.body.email]);
     if (!user.rowCount) return res.status(401)
