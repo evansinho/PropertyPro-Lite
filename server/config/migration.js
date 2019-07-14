@@ -13,9 +13,7 @@ const migration = `
 	  last_name TEXT NOT NULL,
 	  password varchar(100) NOT NULL,
 	  phone_number NUMERIC NOT NULL,
-	  address TEXT NOT NULL,
-	  resetPasswordToken VARCHAR(64),
-	  resetPasswordExpires TIMESTAMP 
+	  address TEXT NOT NULL
 	);
 
  
@@ -23,13 +21,13 @@ const migration = `
 	DROP TABLE IF EXISTS property CASCADE;
 	CREATE TABLE property (
 	  id serial PRIMARY KEY,
-	  owner serial REFERENCES users(id) NOT NULL,
+	  owner serial REFERENCES users(id),
+	  type TEXT NOT NULL,
 	  price NUMERIC NOT NULL,
 	  status TEXT NOT NULL,
 	  state TEXT NOT NULL,
 	  city TEXT NOT NULL,
 	  address TEXT NOT NULL,
-	  type TEXT NOT NULL,
 	  image_url  TEXT NOT NULL,
 	  created_on TIMESTAMP NOT NULL
 	);
