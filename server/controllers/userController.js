@@ -8,7 +8,7 @@ import pool from '../utilities/connection';
 /*import userModel from '../models/userModel';*/
 import { checkSignup, checkSignin } from '../middleware/inputValidator';
 import moment from 'moment';
-import uuidv4 from 'uuidv4';
+//import uuidv4 from 'uuidv4';
 import {createUserQuery, emailCheckQuery} from '../utilities/query';
 
 
@@ -33,7 +33,6 @@ const User = {
       const hashedPasword = await bcrypt.hash(req.body.password, 10);
 
       const values = [
-              uuidv4(),
               req.body.email,
               req.body.first_name,
               req.body.last_name,

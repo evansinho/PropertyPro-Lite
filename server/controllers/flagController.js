@@ -20,8 +20,8 @@ const Flag = {
                 'error':error.details[0].message});
 
         const values = [
-                uuidv4(),
-                uuidv4(),
+                1,
+                req.body.property_id,
                 moment(new Date()),
                 req.body.reason,
                 req.body.description
