@@ -24,7 +24,7 @@ const migration = `
 	  owner serial REFERENCES users(id),
 	  type TEXT NOT NULL,
 	  price NUMERIC NOT NULL,
-	  status TEXT NOT NULL,
+	  status TEXT,
 	  state TEXT NOT NULL,
 	  city TEXT NOT NULL,
 	  address TEXT NOT NULL,
