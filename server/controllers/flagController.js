@@ -8,11 +8,8 @@ import { flagQuery } from '../utilities/query';
 
 const Flag = {
 
-    //CREATE A FLAG
      async createFlag(req,res){
-
       try{
-
         const { error } = checkFlag.validate(req.body);
             if (error) return res.status(400)
                 .send({
