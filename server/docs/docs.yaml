@@ -1,3 +1,8 @@
+securityDefinitions:
+  Bearer:
+    type: apiKey
+    name: Authorization
+    in: header
 schemes:
   - https
 paths:
@@ -133,11 +138,6 @@ paths:
           description: 'Authentication Error'
           example:
             message: Token/Header Error
-            status: failure
-        403:
-          description: User does not have the privilage to create a category
-          example:
-            message: Unauthorized Access. For admins/owner accounts only
             status: failure    
         500:
           description: Internal server error
@@ -331,11 +331,6 @@ paths:
           example:
             message: Token/Header Error
             status: failure
-        403:
-          description: User does not have the privilege to update a property AD
-          example:
-            message: Unauthorized Access. For admins accounts only
-            status: failure
         404:
           description: Bad Request
           example:
@@ -372,11 +367,6 @@ paths:
           description: 'Authentication Error'
           example:
             message: Token/Header Error
-            status: failure
-        403:
-          description: User does not have the privilage to delete a product
-          example:
-            message: Unauthorized Access. For admins/owner accounts only
             status: failure
         404:
           description: 'property not found'
@@ -427,12 +417,7 @@ paths:
           description: Bad Request
           example:
             message: The provided property id doesn't exists.
-            status: failure    
-        403:
-          description: User does not have the privilege to update a property AD
-          example:
-            message: Unauthorized Access. For admins accounts only
-            status: failure   
+            status: failure     
         500:
           description: Internal server error
           example:
