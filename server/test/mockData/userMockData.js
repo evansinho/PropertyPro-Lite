@@ -1,24 +1,13 @@
 export const goodSignUpDetail = {
   first_name :'james',
   last_name:'isaac',
-  email:'james@yahoo.com',
-  password:'234567h',
-  is_admin:'true',
-  phoneNumber:'09034657392'
-};
-
-
-export const goodSignUpDetail2 = {
-  // Email already registered(conflict) ====>[0]
-    first_name: 'bayo',
-    last_name: 'bob',
-    email: 'james60@yahoo.com',
-    password: '238564hh',
-    phoneNumber:'07060403920'
+  email:'example10@yahoo.com',
+  password:'12345678',
+  phone_number:'09034657392',
+  address:'8 ikoku road'
 };
 
   export const badSignUpDetail ={
-  // Bad Request(Empty fields) ====>[1]
     first_name: '',
     last_name: '',
     password: '',
@@ -28,24 +17,21 @@ export const goodSignUpDetail2 = {
  };
 
 export const goodSignInDetail = {
-    email: 'james@yahoo.com',
-    password: '234567h',
+    email: 'example10@yahoo.com',
+    password: '12345678',
   };
 
 export const badSignInDetail1 = {
-  // Unregistered User =====>[0]
-    email: 'okon@gmail.com',
-    password: '12345678',
+    email: 'mary@gmail.com',
+    password: '12345ui8',
 };
 
   export const badSignInDetail2 ={
-  // Wrong Password User =====>[1]
-    email: 'chucksokon@yahmail.com',
+    email: 'example10@yahoo.com',
     password: '123456yiugyuuyug',
 };
 
   export const badSignInDetail3 ={
-  // empty email provided =====>[2]
     email: '',
     password: '1234567',
 };
@@ -56,7 +42,6 @@ export const badSignInDetail1 = {
 
 const credentials = {
   goodSignUpDetail,
-  goodSignUpDetail2,
   badSignUpDetail,
   goodSignInDetail,
   badSignInDetail1,

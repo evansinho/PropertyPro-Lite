@@ -6,7 +6,7 @@ import { Router } from 'express';
 const router = Router();
 
 
-router.post( '/', auth , upload.single('image_url'), Property.create);
+router.post( '/', auth ,  upload.single('image_url'), Property.create);
 router.delete( '/:id', auth , Property.delete);
 router.patch( '/:id', auth , Property.update);
 router.patch( '/:id/sold', auth , Property.mark);

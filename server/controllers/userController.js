@@ -22,73 +22,62 @@ const SECRET = process.env.JWT_KEY;
 
 const User = {
 
-  //USER SIGNUP controller
-async signUp(req, res) {
+  async signUp(req, res) {
+    try{  
+      const { error } = checkSignup.validate(req.body);
+       if (error) return res.status(400)
+          .json({
+          status:400,
+          'error':error.details[0].message});
 
-  try{  
-
-    const { error } = checkSignup.validate(req.body);
-     if (error) return res.status(400)
-        .json({
-        status:400,
-        'error':error.details[0].message});
-
-    const hashedPasword = await bcrypt.hash(req.body.password, 10);
+      const hashedPasword = await bcrypt.hash(req.body.password, 10);
 
       const values = [
-            uuidv4(),
-            req.body.email,
-            req.body.first_name,
-            req.body.last_name,
-            hashedPasword,
-            req.body.phone_number,
-            req.body.address
-      ];
+              uuidv4(),
+              req.body.email,
+              req.body.first_name,
+              req.body.last_name,
+              hashedPasword,
+              req.body.phone_number,
+              req.body.address
+              ];
 
+      const userExist = await pool.query(emailCheckQuery,[req.body.email]);
+        if (userExist.rowCount) return res.status(409)
+            .json({
+                  status:409,
+                  'error':'Email address has been used'
+                });
 
-    const userExist = await pool.query(emailCheckQuery,[req.body.email]);
-      if (userExist.rowCount) return res.status(409)
-          .json({
-                status:409,
-                'error':'Email address has been used'
+      let newUser = await pool.query(createUserQuery, values); 
+          newUser = newUser.rows[0];
+
+      const token = jwt.sign({id: newUser.id}, SECRET, { expiresIn: '24h' });
+
+        return res.header('token', token).status(201)
+              .json({
+                status: 201,
+                data: {
+                  token,
+                  newUser
+                }
               });
 
-
-    let newUser = await pool.query(createUserQuery, values); 
-        newUser = newUser.rows[0];
-
-    const token = jwt.sign({id: newUser.id}, SECRET, { expiresIn: '24h' });
-
-      return res.header('token', token).status(201)
-            .json({
-              status: 201,
-              data: {
-                token,
-                newUser
-              }
-            });
-
-        }catch(error){
-
-          console.log(error);
-     }  
-   },
+          }catch(error){
+            console.log(error);
+           }  
+         },
 
 
-
-  //USER SIGNIN controller
 async signIn(req, res) {    
-
   try{
-
-
     const { error } = checkSignin.validate(req.body);
         if (error) return res.status(400)
           .json({
           status:400,
           error:error.details[0].message}); 
 
-    const user = await pool.query(emailCheckQuery,[req.body.email]);
+    let user = await pool.query(emailCheckQuery,[req.body.email]);
     if (!user.rowCount) return res.status(401)
       .json({
       status:401,
@@ -100,13 +89,16 @@ async signIn(req, res) {
         status:401,
         error:'Invalid email or password.'});
 
-    const token = jwt.sign(req.body, SECRET, { expiresIn: '1hr' });
+    user = user.rows[0];
+       
+    const token = jwt.sign({id: user.id}, SECRET, { expiresIn: '24hr' });
 
     return res.header('token', token).status(200)
         .json({
           status: 200,
           data: {
             token,
+            user
           }
         });
       }catch(error){

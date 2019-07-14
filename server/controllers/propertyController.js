@@ -21,19 +21,14 @@ cloudinary.config(process.env.CLOUDINARY_URL);
 
 const Property = {
 
-  //CREATE PROPERTY
   async create(req,res) {
-
     try{
-
       const { error } = checkProperty.validate(req.body);
-       if (error) return res.status(400)
-        .send({
+         if (error) return res.status(400)
+          .send({
              status:400,
             'error':error.details[0].message});
 
-      if (!req.file) return res.status(400).send('no image uploaded');
-  
       const imageFile = await cloudinary.uploader.upload(req.file.path, (result) =>{
             return req.body.image_url = result.secure_url;
           });
@@ -50,9 +45,8 @@ const Property = {
             req.body.type,
             upload,
             moment(new Date())
-      ];
+            ];
 
-         
        const newProperty = await pool.query(createPropQuery,values);
        const property = newProperty.rows[0];
 
@@ -64,16 +58,13 @@ const Property = {
               });
           }catch(error){
             console.log(error);
-          }
-      },
+            }
+          },
 
 
-    //DELETE PROPERTY AD
   async delete(req,res){
-
-        try{
-
-          const deleteProperty = await pool.query(deleteQuery,[req.params.id, req.user.id]);
+      try{
+        const deleteProperty = await pool.query(deleteQuery,[req.params.id, req.user.id]);
              if (!deleteProperty.rowCount) return res.status(404)
                   .send({
                     status:404,
@@ -86,39 +77,33 @@ const Property = {
                 message: 'property advert deleted'
               });
 
-
-        }catch(error){
-            console.log(error);
-        }
-      },
-
+            }catch(error){
+                console.log(error);
+            }
+          },
 
 
-    //UPDATE PROPERTY AD
   async update (req, res){
-
-        try{
-
+      try{
         const { rows } = await pool.query(idCheckQuery,[req.params.id, req.user.id]);
-               if (!rows[0]) return res.status(404)
+                 if (!rows[0]) return res.status(404)
                     .send({
                       status:404,
                       error: 'property not found'
                     });
 
-
         const values = [
-                req.body.price || rows[0].price,
-                req.body.status || rows[0].status,
-                req.body.state || rows[0].state,
-                req.body.city || rows[0].city,
-                req.body.address || rows[0].address,
-                req.body.type || rows[0].type,
-                req.body.image_url || rows[0].image_url,
-                moment(new Date()),
-                req.params.id,
-                req.user.id
-               ];
+                  req.body.price || rows[0].price,
+                  req.body.status || rows[0].status,
+                  req.body.state || rows[0].state,
+                  req.body.city || rows[0].city,
+                  req.body.address || rows[0].address,
+                  req.body.type || rows[0].type,
+                  req.body.image_url || rows[0].image_url,
+                  moment(new Date()),
+                  req.params.id,
+                  req.user.id
+                 ];
 
         const response = await pool.query(updateQuery,values);
         const updateProperty = response.rows[0];
@@ -134,22 +119,19 @@ const Property = {
               }catch(error){
                 console.log(error);
               }
-        
-         },
+            },
 
-    //MARK PROPERTY AD AS SOLD
-     async mark(req, res){
-
-        try{  
-
-           const { rows } = await pool.query(idCheckQuery,[req.params.id, req.user.id]);
+ 
+  async mark(req, res){
+      try{  
+        const { rows } = await pool.query(idCheckQuery,[req.params.id, req.user.id]);
                if (!rows[0]) return res.status(404)
                     .send({
                       status:404,
                       error: 'property not found'
                     });
                   
-             const values = [
+        const values = [
                 req.body.price || rows[0].price,
                 req.body.status || rows[0].status,
                 req.body.state || rows[0].state,
@@ -162,9 +144,9 @@ const Property = {
                 req.user.id
                ];     
 
-            const response = await pool.query(updateQuery, values);
-            const markProperty = response.rows[0];
-            const changeStatus = await _.pick(markProperty,['status']);
+        const response = await pool.query(updateQuery, values);
+        const markProperty = response.rows[0];
+        const changeStatus = await _.pick(markProperty,['status']);
               return res.status(200)
                     .json({
                         status:200,
@@ -174,20 +156,13 @@ const Property = {
             }catch(error){
               console.log(error);
             }
-      
-         },
+          },
 
 
-        
-
-   // GET A SPECIFIC PROPERTY  
-     
-      async getAProperty(req, res){
-
-        try{
-            const foundProp = await pool.query(idCheckQuery,[req.params.id,req.user.id]);
-            const propExist =foundProp.rows[0];
-
+  async getAProperty(req, res){
+      try{
+        const foundProp = await pool.query(idCheckQuery,[req.params.id,req.user.id]);
+        const propExist =foundProp.rows[0];
             if (propExist.rowCount < 1) return res.status(404)
                     .send({
                       status:404,
@@ -202,22 +177,16 @@ const Property = {
               
               }catch(error){
                 console.log(error);
-            }
-      
-          },
+              }
+            },
 
 
+  async getAll(req, res){
+      try{
+        let response = [];
 
-       //GET ALL PROPERTY
-
-      async getAll(req, res){
-
-        try{
-
-          let response = [];
-
-          const { rows } = await pool.query(allPropQuery,[req.user.id]);
-          const properties = rows;
+        const { rows } = await pool.query(allPropQuery,[req.user.id]);
+        const properties = rows;
 
           if(typeof req.query.type != undefined){
             response = properties.filter( property =>{
@@ -239,10 +208,9 @@ const Property = {
 
         }catch(error){
           console.log(error);
-        }
-     }    
+         }
+      }    
 
-      
 }
   
 
