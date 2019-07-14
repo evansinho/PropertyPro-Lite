@@ -24,11 +24,11 @@ const User = {
 
   async signUp(req, res) {
     try{  
-      /*const { error } = checkSignup.validate(req.body);
+      const { error } = checkSignup.validate(req.body);
        if (error) return res.status(400)
           .json({
           status:400,
-          'error':error.details[0].message});*/
+          'error':error.details[0].message});
 
       const salt = await bcrypt.genSalt(10);
       const hashedPasword = await bcrypt.hash(req.body.password, salt);
@@ -54,7 +54,7 @@ const User = {
 
       const token = jwt.sign({id: newUser.id}, SECRET, { expiresIn: '24h' });
 
-        return res.header('token', token).status(201)
+        return res.headers('token', token).status(201)
               .json({
                 status: 201,
                 data: {
@@ -71,11 +71,11 @@ const User = {
 
 async signIn(req, res) {    
   try{
-    /*const { error } = checkSignin.validate(req.body);
+    const { error } = checkSignin.validate(req.body);
         if (error) return res.status(400)
           .json({
           status:400,
-          error:error.details[0].message}); */
+          error:error.details[0].message}); 
 
     let user = await pool.query(emailCheckQuery,[req.body.email]);
     if (!user.rowCount) return res.status(401)
@@ -93,7 +93,7 @@ async signIn(req, res) {
        
     const token = jwt.sign({id: user.id}, SECRET, { expiresIn: '24hr' });
 
-    return res.header('token', token).status(200)
+    return res.headers('token', token).status(200)
         .json({
           status: 200,
           data: {
