@@ -1,5 +1,5 @@
 import moment from 'moment';
-import uuidv4 from 'uuid/v4';
+//import uuidv4 from 'uuid/v4';
 import pool from '../utilities/connection';
 import _ from 'lodash';
 /*import propertyModel from '../models/propertyModel';*/
@@ -35,7 +35,6 @@ const Property = {
       const upload = imageFile.secure_url;
 
       const values = [
-            uuidv4(),
             req.user.id,
             req.body.price,
             req.body.status,

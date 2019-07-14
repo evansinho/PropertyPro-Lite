@@ -7,7 +7,7 @@ const migration = `
 	/*Table schema for table users */
 	DROP TABLE IF EXISTS users CASCADE;
 	CREATE TABLE users (
-	  id UUID UNIQUE PRIMARY KEY NOT NULL,
+	  id serial UNIQUE PRIMARY KEY NOT NULL,
 	  email VARCHAR(45) UNIQUE NOT NULL,
 	  first_name TEXT NOT NULL,
 	  last_name TEXT NOT NULL,
@@ -22,8 +22,8 @@ const migration = `
 	/*Table schema for table property */
 	DROP TABLE IF EXISTS property CASCADE;
 	CREATE TABLE property (
-	  id UUID PRIMARY KEY,
-	  owner UUID REFERENCES users(id) NOT NULL,
+	  id serial PRIMARY KEY,
+	  owner serial REFERENCES users(id) NOT NULL,
 	  price NUMERIC NOT NULL,
 	  status TEXT NOT NULL,
 	  state TEXT NOT NULL,
@@ -39,8 +39,8 @@ const migration = `
 	/*Table schema for table flags */
 	DROP TABLE IF EXISTS flags CASCADE;
 	CREATE TABLE flags (
-	  id UUID PRIMARY KEY NOT NULL,
-	  property_id UUID NOT NULL,
+	  id serial PRIMARY KEY NOT NULL,
+	  property_id serial NOT NULL,
 	  created_on TIMESTAMP NOT NULL,
 	  reason TEXT NOT NULL,
 	  description TEXT NOT NULL
