@@ -32,7 +32,7 @@ describe('property', () => {
       const response = await chai
         .request(app)
         .post('/api/v1/property')
-        .set('Authorization', `Bearer ${adminToken}`)
+        .set('Authorization', adminToken)
         .send(badPropertyDetail);
 
       expect(response.status).to.equal(400);
@@ -42,7 +42,7 @@ describe('property', () => {
       const response = await chai
         .request(app)
         .post('/api/v1/property')
-        .set('Authorization', `Bearer ${adminToken}`)
+        .set('Authorization', adminToken)
         .send(goodPropertyDetail);
 
       expect(response.status).to.equal(201);
@@ -55,7 +55,7 @@ describe('property', () => {
       const response = await chai
         .request(app)
         .patch('/api/v1/property/245')
-        .set('Authorization', `Bearer ${adminToken}`)
+        .set('Authorization', adminToken)
         .send(updatePropertyDetail);
 
       expect(response.status).to.equal(404);
@@ -65,7 +65,7 @@ describe('property', () => {
       const response = await chai
         .request(app)
         .patch('/api/v1/property/2')
-        .set('Authorization', `Bearer ${adminToken}`)
+        .set('Authorization', adminToken)
         .send(goodSignInDetail);
 
       expect(response.status).to.equal(200);
@@ -78,7 +78,7 @@ describe('property', () => {
       const response = await chai
         .request(app)
         .patch('/api/v1/property/223343/sold')
-        .set('Authorization', `Bearer ${adminToken}`)
+        .set('Authorization', adminToken)
         .send(updatePropertyDetail);
 
       expect(response.status).to.equal(404);
@@ -88,7 +88,7 @@ describe('property', () => {
       const response = await chai
         .request(app)
         .patch('/api/v1/property/223343/sold')
-        .set('Authorization', `Bearer ${adminToken}`)
+        .set('Authorization', adminToken)
         .send(goodSignInDetail);
 
       expect(response.status).to.equal(200);
@@ -101,7 +101,7 @@ describe('property', () => {
       const response = await chai
         .request(app)
         .get('/api/v1/property')
-        .set('Authorization', `Bearer ${adminToken}`)
+        .set('Authorization', adminToken)
 
       expect(response.status).to.equal(200);
     });
@@ -113,7 +113,7 @@ describe('property', () => {
       const response = await chai
         .request(app)
         .get('/api/v1/property/23')
-        .set('Authorization', `Bearer ${adminToken}`)
+        .set('Authorization', adminToken)
 
       expect(response.status).to.equal(404);
     });
@@ -122,7 +122,7 @@ describe('property', () => {
       const response = await chai
         .request(app)
         .get('/api/v1/property/1')
-        .set('Authorization', `Bearer ${adminToken}`)
+        .set('Authorization', adminToken)
 
       expect(response.status).to.equal(200);
     });
@@ -134,7 +134,7 @@ describe('property', () => {
       const response = await chai
         .request(app)
         .get('/api/v1/property?type=1 bedroom')
-        .set('Authorization', `Bearer ${adminToken}`)
+        .set('Authorization', adminToken)
 
       expect(response.status).to.equal(200);
     });
@@ -146,7 +146,7 @@ describe('property', () => {
       const response = await chai
         .request(app)
         .delete('/api/v1/property/1234')
-        .set('Authorization', `Bearer ${ownerToken}`);
+        .set('Authorization', adminToken);
 
       expect(response.status).to.equal(404);
     });
@@ -155,7 +155,7 @@ describe('property', () => {
       const response = await chai
         .request(app)
         .delete('/api/v1/property/1234')
-        .set('Authorization', `Bearer ${ownerToken}`);
+        .set('Authorization', adminToken);
 
       expect(response.status).to.equal(200);
     }); 

@@ -8,20 +8,15 @@ const SECRET = process.env.JWT_KEY;
 
 
 module.exports = (req, res, next) => {
-  const token = req.header('token') || req.body.token;
-  if (!token) return res.status(401)
+  const token = req.headers.token;
+  if (typeof token === 'undefined') return res.status(401)
     .json({
       status:401,
       message:'Access denied. No token provided.'
     });
-
-  try {
-    const decoded = jwt.verify(token, SECRET );  
-    req.user = decoded; 
+  jwt.verify(token, process.env.JWT_KEY, (err, decodedToken) => {
+    if (err) res.status(401).send('Invalid token.');
+    req.user = decodedToken;
     next();
-  }
-  catch (ex) {
-    res.status(400).send('Invalid token.');
-  }
+  });
 };
-
