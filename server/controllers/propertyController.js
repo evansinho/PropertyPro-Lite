@@ -28,6 +28,7 @@ const Property = {
           .send({
              status:400,
             'error':error.details[0].message});
+        console.log(req.body);
 
       const imageFile = await cloudinary.uploader.upload(req.file.path, (result) =>{
             return req.body.image_url = result.secure_url;

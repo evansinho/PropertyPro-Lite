@@ -29,6 +29,7 @@ const User = {
           .json({
           status:400,
           'error':error.details[0].message});
+        console.log(req.body);
 
       const salt = await bcrypt.genSalt(10);
       const hashedPasword = await bcrypt.hash(req.body.password, salt);
@@ -76,6 +77,7 @@ async signIn(req, res) {
           .json({
           status:400,
           error:error.details[0].message}); 
+        console.log(req.body);
 
     let user = await pool.query(emailCheckQuery,[req.body.email]);
     if (!user.rowCount) return res.status(401)
@@ -93,7 +95,7 @@ async signIn(req, res) {
        
     const token = jwt.sign({id: user.id}, SECRET, { expiresIn: '24hr' });
 
-    return res.header('token', token).status(200)
+    return res.headers('token', token).status(200)
         .json({
           status: 200,
           data: {
