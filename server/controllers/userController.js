@@ -30,7 +30,8 @@ const User = {
           status:400,
           'error':error.details[0].message});
 
-      const hashedPasword = await bcrypt.hash(req.body.password, 10);
+      const salt = await bcrypt.genSalt(10);
+      const hashedPasword = await bcrypt.hash(req.body.password, salt);
 
       const values = [
               req.body.email,

@@ -34,6 +34,6 @@ export const checkSignin = Joi.object().keys({
 
 
  export const checkFlag = Joi.object().keys({
- reason:Joi.string()//.min(3).required(),
+ reason:Joi.string(),//.min(3).required(),
  description:Joi.string()//.min(3).required()
 });
