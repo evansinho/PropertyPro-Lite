@@ -54,7 +54,7 @@ const User = {
 
       const token = jwt.sign({id: newUser.id}, SECRET, { expiresIn: '24h' });
 
-        return res.headers('token', token).status(201)
+        return res.header('token', token).status(201)
               .json({
                 status: 201,
                 data: {
@@ -93,7 +93,7 @@ async signIn(req, res) {
        
     const token = jwt.sign({id: user.id}, SECRET, { expiresIn: '24hr' });
 
-    return res.headers('token', token).status(200)
+    return res.header('token', token).status(200)
         .json({
           status: 200,
           data: {

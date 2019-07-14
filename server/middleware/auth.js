@@ -8,7 +8,7 @@ const SECRET = process.env.JWT_KEY;
 
 
 module.exports = (req, res, next) => {
-  const token = req.headers('token') || req.body.token;
+  const token = req.header('token') || req.body.token;
   if (!token) return res.status(401)
     .json({
       status:401,
