@@ -29,7 +29,7 @@ const User = {
           status:400,
           'error':error.details[0].message});*/
            console.log(req.body);
-           
+
       const userExist = await pool.query(emailCheckQuery,[req.body.email]);
         if (userExist.rowCount) return res.status(409)
             .json({
@@ -38,14 +38,13 @@ const User = {
                 });
      
 
-      const salt = await bcrypt.genSalt(10);
-      const hashedPasword = await bcrypt.hash(req.body.password, salt);
+      //const hashedPassword = await bcrypt.hash(req.body.password, 10);
 
       const values = [
               req.body.email,
               req.body.first_name,
               req.body.last_name,
-              hashedPasword,
+              req.body.password,
               req.body.phone_number,
               req.body.address
               ];
@@ -53,6 +52,7 @@ const User = {
       
       let newUser = await pool.query(createUserQuery, values); 
           newUser = newUser.rows[0];
+          newUser.password = await bcrypt.hash(newUser.password, 10);
 
       const token = jwt.sign({id: newUser.id}, SECRET, { expiresIn: '24h' });
 
