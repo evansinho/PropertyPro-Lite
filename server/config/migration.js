@@ -11,9 +11,9 @@ const migration = `
 	  email VARCHAR(128) UNIQUE NOT NULL,
 	  first_name VARCHAR(128) NOT NULL,
 	  last_name VARCHAR(128),
-	  password varchar(100) NOT NULL,
-	  phone_number varchar(100) NOT NULL,
-	  address VARCHAR(128) NOT NULL
+	  password varchar(100),
+	  phone_number varchar(100),
+	  address VARCHAR(128)
 	);
 
  
