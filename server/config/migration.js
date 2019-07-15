@@ -8,12 +8,12 @@ const migration = `
 	DROP TABLE IF EXISTS users CASCADE;
 	CREATE TABLE users (
 	  id serial UNIQUE PRIMARY KEY NOT NULL,
-	  email VARCHAR(100) UNIQUE NOT NULL,
-	  first_name TEXT NOT NULL,
-	  last_name TEXT NOT NULL,
+	  email VARCHAR(128) UNIQUE NOT NULL,
+	  first_name VARCHAR(128) NOT NULL,
+	  last_name VARCHAR(128) NOT NULL,
 	  password varchar(100) NOT NULL,
-	  phone_number NUMERIC NOT NULL,
-	  address TEXT NOT NULL
+	  phone_number varchar(100) NOT NULL,
+	  address VARCHAR(128) NOT NULL
 	);
 
  
@@ -22,12 +22,12 @@ const migration = `
 	CREATE TABLE property (
 	  id serial PRIMARY KEY,
 	  owner serial REFERENCES users(id),
-	  type TEXT NOT NULL,
+	  type VARCHAR(128) NOT NULL,
 	  price NUMERIC NOT NULL,
-	  status TEXT,
-	  state TEXT NOT NULL,
-	  city TEXT NOT NULL,
-	  address TEXT NOT NULL,
+	  status VARCHAR(128),
+	  state VARCHAR(128) NOT NULL,
+	  city VARCHAR(128) NOT NULL,
+	  address VARCHAR(128) NOT NULL,
 	  image_url  TEXT NOT NULL,
 	  created_on TIMESTAMP NOT NULL
 	);

@@ -23,12 +23,13 @@ const Property = {
   async create(req,res) {
     try{
       console.log(req.body);
-      const { error } = checkProperty.validate(req.body);
+      console.log(req.file.path);
+      /*const { error } = checkProperty.validate(req.body);
          if (error) return res.status(400)
           .send({
              status:400,
             'error':error.details[0].message});
-
+*/
       const imageFile = await cloudinary.uploader.upload(req.file.path, (result) =>{
             return req.body.image_url = result.secure_url;
           });
