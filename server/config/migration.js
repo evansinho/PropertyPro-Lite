@@ -8,12 +8,12 @@ const migration = `
 	DROP TABLE IF EXISTS users CASCADE;
 	CREATE TABLE users (
 	  id serial UNIQUE PRIMARY KEY NOT NULL,
-	  email VARCHAR(128) UNIQUE ,
-	  first_name VARCHAR(128) ,
-	  last_name VARCHAR(128) ,
-	  password varchar(100) ,
-	  phone_number varchar(100) ,
-	  address VARCHAR(128) 
+	  email VARCHAR(128) UNIQUE NOT NULL,
+	  first_name VARCHAR(128) NOT NULL,
+	  last_name VARCHAR(128),
+	  password varchar(100),
+	  phone_number varchar(100),
+	  address VARCHAR(128)
 	);
 
  
