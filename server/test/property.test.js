@@ -15,15 +15,17 @@ chai.use(chaiHttp);
 let adminToken
 
 
-describe('property', () => {
-  before(async () => {
-    const response = await chai
-      .request(app)
-      .post('/api/v1/auth/signin')
-      .send(goodSignInDetail);
-    adminToken = response.body.data.token;
-    console.log(adminToken);
-   });
+describe('Create user token', () => {
+  it('should signin user successfully', async () => {
+      const response = await chai
+        .request(app)
+        .post('/api/v1/auth/signin')
+        .send(goodSignInDetail);
+
+      expect(response.status).to.equal(200);
+      expect(response.body.data.token).to.be.a('string');
+       adminToken =  response.body.data.token;
+    });
  });
 
 
@@ -77,7 +79,7 @@ describe('property', () => {
     it('should return an error if the property is not in the db', async () => {
       const response = await chai
         .request(app)
-        .patch('/api/v1/property/223343/sold')
+        .patch('/api/v1/property/276/sold')
         .set('Authorization', adminToken)
         .send(updatePropertyDetail);
 
@@ -87,7 +89,7 @@ describe('property', () => {
     it('should mark a property as sold', async () => {
       const response = await chai
         .request(app)
-        .patch('/api/v1/property/223343/sold')
+        .patch('/api/v1/property/2/sold')
         .set('Authorization', adminToken)
         .send(goodSignInDetail);
 
@@ -121,7 +123,7 @@ describe('property', () => {
     it('should return a property of valid id', async () => {
       const response = await chai
         .request(app)
-        .get('/api/v1/property/1')
+        .get('/api/v1/property/2')
         .set('Authorization', adminToken)
 
       expect(response.status).to.equal(200);
@@ -154,7 +156,7 @@ describe('property', () => {
     it('user should be able to delete a property', async () => {
       const response = await chai
         .request(app)
-        .delete('/api/v1/property/1234')
+        .delete('/api/v1/property/2')
         .set('Authorization', adminToken);
 
       expect(response.status).to.equal(200);

@@ -8,7 +8,6 @@ import pool from '../utilities/connection';
 /*import userModel from '../models/userModel';*/
 import { checkSignup, checkSignin } from '../middleware/inputValidator';
 import moment from 'moment';
-//import uuidv4 from 'uuidv4';
 import {createUserQuery, emailCheckQuery} from '../utilities/query';
 
 
@@ -24,12 +23,20 @@ const User = {
 
   async signUp(req, res) {
     try{  
-      const { error } = checkSignup.validate(req.body);
+      /*const { error } = checkSignup.validate(req.body);
        if (error) return res.status(400)
           .json({
           status:400,
-          'error':error.details[0].message});
+          'error':error.details[0].message});*/
            console.log(req.body);
+           
+      const userExist = await pool.query(emailCheckQuery,[req.body.email]);
+        if (userExist.rowCount) return res.status(409)
+            .json({
+                  status:409,
+                  'error':'Email address has been used'
+                });
+     
 
       const salt = await bcrypt.genSalt(10);
       const hashedPasword = await bcrypt.hash(req.body.password, salt);
@@ -43,13 +50,7 @@ const User = {
               req.body.address
               ];
 
-      const userExist = await pool.query(emailCheckQuery,[req.body.email]);
-        if (userExist.rowCount) return res.status(409)
-            .json({
-                  status:409,
-                  'error':'Email address has been used'
-                });
-
+      
       let newUser = await pool.query(createUserQuery, values); 
           newUser = newUser.rows[0];
 
@@ -72,11 +73,11 @@ const User = {
 
 async signIn(req, res) {    
   try{
-    const { error } = checkSignin.validate(req.body);
+  /*  const { error } = checkSignin.validate(req.body);
         if (error) return res.status(400)
           .json({
           status:400,
-          error:error.details[0].message}); 
+          error:error.details[0].message});*/ 
 
          console.log(req.body);
 

@@ -1,5 +1,4 @@
 import moment from 'moment';
-//import uuidv4 from 'uuid/v4';
 import pool from '../utilities/connection';
 import _ from 'lodash';
 /*import propertyModel from '../models/propertyModel';*/
@@ -23,11 +22,11 @@ const Property = {
 
   async create(req,res) {
     try{
-      const { error } = checkProperty.validate(req.body);
+      /*const { error } = checkProperty.validate(req.body);
          if (error) return res.status(400)
           .send({
              status:400,
-            'error':error.details[0].message});
+            'error':error.details[0].message});*/
         console.log(req.body);
 
       const imageFile = await cloudinary.uploader.upload(req.file.path, (result) =>{
@@ -161,13 +160,14 @@ const Property = {
 
   async getAProperty(req, res){
       try{
-        const foundProp = await pool.query(idCheckQuery,[req.params.id,req.user.id]);
-        const propExist =foundProp.rows[0];
-            if (propExist.rowCount < 1) return res.status(404)
+        const { rows, rowCount } = await pool.query(idCheckQuery,[req.params.id,req.user.id]);
+            if (!rowCount) return res.status(404)
                     .send({
                       status:404,
                       error: 'property not found'
                     });
+
+            const propExist = rows[0];
 
                return res.status(200)
                .json({

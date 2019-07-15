@@ -37,12 +37,12 @@ app.use('/api/v1/property',Property);
 app.use('/api/v1/flag',Flag);
 
 
-app.use((err, req, res, next) => {
-  res.status(err.status || 500);
-  res.json({ message: err.message, status: 'failure' });
-  next();
+app.use((error, req, res, next) => {
+  res.status(error.status || 500).json({
+    status: 400,
+    error: error.message,
+  });
 });
-
 
 app.listen(port, () => {
   console.log(`Server is listening on port ${port}`);

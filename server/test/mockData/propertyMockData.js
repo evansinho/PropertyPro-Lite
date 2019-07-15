@@ -4,7 +4,7 @@ export const goodPropertyDetail = {
     state: 'lagos state',
     city: 'lagos',
     address: '8 ikoku road',
-    image_url: 'https://si.wsj.net/public/resources/images/B3-DM067_RIGHTS_IM_20190319162958.jpg',
+    image_url: 'https://example.com/house.jpg',
     type: '1 bedroom'
   };
          
@@ -26,7 +26,7 @@ export const updatePropertyDetail = {
     city:'lagos',
     address:'4 ikorudu road',
     price: 200000,
-    image_url:'https://si.wsj.net/public/resources/images/B3-DM067_RIGHTS_IM_20190319162958.jpg',
+    image_url:'https://example.com/house.jpg',
   };
 
     
