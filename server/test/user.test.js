@@ -14,7 +14,6 @@ import {
 const { expect } = chai;
 chai.use(chaiHttp);
 
-let token;
 
 describe('User', () => {
   describe('Signup User', () => {
@@ -81,7 +80,6 @@ describe('User', () => {
 
       expect(response.status).to.equal(200);
       expect(response.body.data.token).to.be.a('string');
-       token = response.body.data.token;
     });
   });
 });  

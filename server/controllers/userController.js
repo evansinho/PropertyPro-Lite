@@ -23,8 +23,8 @@ const User = {
 
   async signUp(req, res) {
     try{  
-      /*console.log(req.body);
-      const { error } = checkSignup.validate(req.body);
+      console.log(req.body);
+      /*const { error } = checkSignup.validate(req.body);
        if (error) return res.status(400)
           .json({
           status:400,
@@ -37,13 +37,13 @@ const User = {
                   'error':'Email address has been used'
                 });
      
-
+       const hashedPassword = await bcrypt.hash(req.body.password, 10);
 
       const values = [
               req.body.email,
               req.body.first_name,
               req.body.last_name,
-              req.body.password,
+              hashedPassword,
               req.body.phone_number,
               req.body.address
               ];
@@ -51,7 +51,7 @@ const User = {
       
       let newUser = await pool.query(createUserQuery, values); 
           newUser = newUser.rows[0];
-          newUser.password = await bcrypt.hash(newUser.password, 10);
+          
 
       const token = jwt.sign({id: newUser.id}, SECRET, { expiresIn: '24h' });
 
@@ -72,27 +72,28 @@ const User = {
 
 async signIn(req, res) {    
   try{
-    /*console.log(req.body);
-    const { error } = checkSignin.validate(req.body);
+    console.log(req.body);
+   /* const { error } = checkSignin.validate(req.body);
         if (error) return res.status(400)
           .json({
           status:400,
-          error:error.details[0].message});*/ 
+          error:error.details[0].message}); */
 
     let user = await pool.query(emailCheckQuery,[req.body.email]);
-    if (!user.rowCount) return res.status(401)
-      .json({
-      status:401,
-      error:'Invalid email or password.'});
+        if (!user.rowCount) return res.status(401)
+          .json({
+          status:401,
+          error:'Invalid email or password.'});
 
-    const validPassword = await bcrypt.compare(req.body.password,  user.rows[0].password);
-    if (!validPassword) return res.status(401)
-      .json({
-        status:401,
-        error:'Invalid email or password.'});
+        user = user.rows[0];
 
-    user = user.rows[0];
-       
+    const validPassword = await bcrypt.compare(req.body.password,  user.password);
+
+        if (!validPassword) return res.status(401)
+          .json({
+            status:401,
+            error:'Invalid email or password.'});
+
     const token = jwt.sign({id: user.id}, SECRET, { expiresIn: '24hr' });
 
     return res.header('token', token).status(200)
