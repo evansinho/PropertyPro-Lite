@@ -23,12 +23,12 @@ const User = {
 
   async signUp(req, res) {
     try{  
-      /*const { error } = checkSignup.validate(req.body);
+      console.log(req.body);
+      const { error } = checkSignup.validate(req.body);
        if (error) return res.status(400)
           .json({
           status:400,
-          'error':error.details[0].message});*/
-           console.log(req.body);
+          'error':error.details[0].message});
 
       const userExist = await pool.query(emailCheckQuery,[req.body.email]);
         if (userExist.rowCount) return res.status(409)
@@ -38,7 +38,6 @@ const User = {
                 });
      
 
-      //const hashedPassword = await bcrypt.hash(req.body.password, 10);
 
       const values = [
               req.body.email,
@@ -73,13 +72,12 @@ const User = {
 
 async signIn(req, res) {    
   try{
-  /*  const { error } = checkSignin.validate(req.body);
+    console.log(req.body);
+    const { error } = checkSignin.validate(req.body);
         if (error) return res.status(400)
           .json({
           status:400,
-          error:error.details[0].message});*/ 
-
-         console.log(req.body);
+          error:error.details[0].message}); 
 
     let user = await pool.query(emailCheckQuery,[req.body.email]);
     if (!user.rowCount) return res.status(401)
