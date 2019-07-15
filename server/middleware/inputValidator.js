@@ -1,4 +1,4 @@
-/*import BaseJoi from 'joi';
+import BaseJoi from 'joi';
 import ImageExtension from 'joi-image-extension';
 
 const Joi = BaseJoi.extend(ImageExtension);
@@ -36,5 +36,3 @@ export const checkSignin = Joi.object().keys({
  reason:Joi.string().min(3).required(),
  description:Joi.string().min(3).required()
 });
-
-*/
