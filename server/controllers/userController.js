@@ -37,7 +37,9 @@ const User = {
                   'error':'Email address has been used'
                 });
      
-       const hashedPassword = await bcrypt.hash(req.body.password, 10);
+          const salt = await bcrypt.genSalt(10);
+          const hashedPassword = await bcrypt.hash(req.body.password, salt);
+        
 
       const values = [
               req.body.email,
