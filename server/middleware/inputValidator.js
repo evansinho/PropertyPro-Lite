@@ -22,7 +22,7 @@ export const checkSignin = Joi.object().keys({
       
 
  export const checkProperty = Joi.object().keys({
-  status: Joi.string().required().default('available'),
+  status: Joi.string().default('available'),
   price: Joi.number().required(),
   state: Joi.string().required(),
   city: Joi.string().required(),
