@@ -39,19 +39,19 @@ const Property = {
       const values = [
             req.user.id,
             req.body.price,
-            req.body.status,
+            'available',
             req.body.state,
             req.body.city,
             req.body.address,
             req.body.type,
             upload,
+            'g@gmail.com',
             moment(new Date())
             ];
 
        const newProperty = await pool.query(createPropQuery,values);
        let data = newProperty.rows[0];
-            data.status = 'available';
-
+      
           return res.status(201).json({
                 status: 201,
                 data
@@ -166,7 +166,7 @@ const Property = {
                       "error": 'property not found'
                     });
 
-            const data = rows[0];
+            let data = rows[0];
 
                return res.status(200)
                .json({
