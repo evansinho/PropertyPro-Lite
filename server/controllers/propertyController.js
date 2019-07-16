@@ -28,7 +28,7 @@ const Property = {
          if (error) return res.status(400)
           .json({
              status:400,
-             error: error.details[0].message
+             "error": error.details[0].message
                });
 
       const imageFile = await cloudinary.uploader.upload(req.file.path, (result) =>{
@@ -52,8 +52,10 @@ const Property = {
        const data = newProperty.rows[0];
 
           return res.status(201).json({
-                status: 201,
-                data
+                data:{
+                  status: 201,
+                  data
+                } 
               });
           }catch(error){
             console.log(error);
@@ -67,13 +69,15 @@ const Property = {
              if (!deleteProperty.rowCount) return res.status(404)
                   .json({
                     status:404,
-                    error: 'property not found'
+                    "error": 'property not found'
                   });
 
               return res.status(204)
               .json({
                 status:204,
-                message: 'property advert deleted'
+                data:{
+                  message: 'property advert deleted'
+                }
               });
 
             }catch(error){
@@ -143,11 +147,11 @@ const Property = {
 
         const response = await pool.query(updateQuery, values);
         const markProperty = response.rows[0];
-        const changeStatus = await _.pick(markProperty,['status']);
+        const data = await _.pick(markProperty,['status']);
               return res.status(200)
                     .json({
                         status:200,
-                        changeStatus
+                        data
                        });
 
             }catch(error){
@@ -162,16 +166,18 @@ const Property = {
             if (!rowCount) return res.status(404)
                     .json({
                       status:404,
-                      error: 'property not found'
+                      "error": 'property not found'
                     });
 
             const data = rows[0];
 
                return res.status(200)
                .json({
-                status:200,
-                data
-                });
+                data:{
+                  status:200,
+                  data
+                }
+              });
               
               }catch(error){
                 console.log(error);
@@ -208,7 +214,7 @@ const Property = {
           return res.status(400)
            .json({
               status:400,
-              error: error
+              "error": error
            });
          }
       }    
