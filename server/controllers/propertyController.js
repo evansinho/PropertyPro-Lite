@@ -49,13 +49,11 @@ const Property = {
             ];
 
        const newProperty = await pool.query(createPropQuery,values);
-       const property = newProperty.rows[0];
+       const data = newProperty.rows[0];
 
           return res.status(201).json({
-                data: {
-                  status: 201,
-                  property
-                }
+                status: 201,
+                data
               });
           }catch(error){
             console.log(error);
@@ -107,15 +105,13 @@ const Property = {
                  ];
 
         const response = await pool.query(updateQuery,values);
-        const updateProperty = response.rows[0];
+        const data = response.rows[0];
 
               return res.status(200)
                     .json({
-                    data:{
                       status:200,
-                      updateProperty
-                     }
-                  });
+                      data
+                    });
 
               }catch(error){
                 console.log(error);
@@ -169,14 +165,12 @@ const Property = {
                       error: 'property not found'
                     });
 
-            const propExist = rows[0];
+            const data = rows[0];
 
                return res.status(200)
                .json({
-                data:{
-                  status:200,
-                  propExist
-                  }
+                status:200,
+                data
                 });
               
               }catch(error){
@@ -187,13 +181,13 @@ const Property = {
 
   async getAll(req, res){
       try{
-        let response = [];
+        let data = [];
 
         const { rows } = await pool.query(allPropQuery,[req.user.id]);
         const properties = rows;
 
           if(typeof req.query.type != undefined){
-            response = properties.filter( property =>{
+            data = properties.filter( property =>{
               if(property.type === req.query.type){
                   return property 
               }
@@ -201,24 +195,20 @@ const Property = {
           }
 
           if (Object.keys(req.query).length === 0){
-            response = properties;
+            data = properties;
           }
 
           return res.status(200)
            .json({
-            data:{
               status:200,
-              response
-             }
+              data
             });
 
         }catch(error){
           return res.status(400)
            .json({
-            data:{
               status:400,
               error: error
-             }
            });
          }
       }    
