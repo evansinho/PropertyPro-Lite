@@ -23,12 +23,13 @@ const Property = {
   async create(req,res) {
     try{
       console.log(req.body);
-      //if(!req.file) return res.send('no file uploaded');
+      
       const { error } = checkProperty.validate(req.body);
          if (error) return res.status(400)
-          .send({
+          .json({
              status:400,
-            'error':error.details[0].message});
+            'error':error.details[0].message
+               });
 
       const imageFile = await cloudinary.uploader.upload(req.file.path, (result) =>{
             return req.body.image_url = result.secure_url;
@@ -50,7 +51,7 @@ const Property = {
        const newProperty = await pool.query(createPropQuery,values);
        const property = newProperty.rows[0];
 
-          return res.status(201).send({
+          return res.status(201).json({
                 status: 201,
                 data: {
                   property
@@ -66,13 +67,13 @@ const Property = {
       try{
         const deleteProperty = await pool.query(deleteQuery,[req.params.id, req.user.id]);
              if (!deleteProperty.rowCount) return res.status(404)
-                  .send({
+                  .json({
                     status:404,
                     error: 'property not found'
                   });
 
               return res.status(204)
-              .send({
+              .json({
                 status:204,
                 message: 'property advert deleted'
               });
@@ -87,7 +88,7 @@ const Property = {
       try{
         const { rows } = await pool.query(idCheckQuery,[req.params.id, req.user.id]);
                  if (!rows[0]) return res.status(404)
-                    .send({
+                    .json({
                       status:404,
                       error: 'property not found'
                     });
@@ -109,7 +110,7 @@ const Property = {
         const updateProperty = response.rows[0];
 
               return res.status(200)
-                    .send({
+                    .json({
                     status:200,
                     data:{
                       updateProperty
@@ -126,7 +127,7 @@ const Property = {
       try{  
         const { rows } = await pool.query(idCheckQuery,[req.params.id, req.user.id]);
                if (!rows[0]) return res.status(404)
-                    .send({
+                    .json({
                       status:404,
                       error: 'property not found'
                     });
@@ -163,7 +164,7 @@ const Property = {
       try{
         const { rows, rowCount } = await pool.query(idCheckQuery,[req.params.id,req.user.id]);
             if (!rowCount) return res.status(404)
-                    .send({
+                    .json({
                       status:404,
                       error: 'property not found'
                     });
