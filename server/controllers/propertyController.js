@@ -28,7 +28,7 @@ const Property = {
          if (error) return res.status(400)
           .json({
              status:400,
-            'error':error.details[0].message
+             error: error.details[0].message
                });
 
       const imageFile = await cloudinary.uploader.upload(req.file.path, (result) =>{
@@ -52,8 +52,8 @@ const Property = {
        const property = newProperty.rows[0];
 
           return res.status(201).json({
-                status: 201,
                 data: {
+                  status: 201,
                   property
                 }
               });
@@ -111,8 +111,8 @@ const Property = {
 
               return res.status(200)
                     .json({
-                    status:200,
                     data:{
+                      status:200,
                       updateProperty
                      }
                   });
@@ -173,8 +173,10 @@ const Property = {
 
                return res.status(200)
                .json({
-                status:200,
-                data:propExist
+                data:{
+                  status:200,
+                  propExist
+                  }
                 });
               
               }catch(error){
@@ -204,12 +206,20 @@ const Property = {
 
           return res.status(200)
            .json({
-            status:200,
-            data:response
+            data:{
+              status:200,
+              response
+             }
             });
 
         }catch(error){
-          console.log(error);
+          return res.status(400)
+           .json({
+            data:{
+              status:400,
+              error: error
+             }
+           });
          }
       }    
 
