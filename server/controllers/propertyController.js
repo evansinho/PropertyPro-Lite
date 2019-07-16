@@ -49,7 +49,8 @@ const Property = {
             ];
 
        const newProperty = await pool.query(createPropQuery,values);
-       const data = newProperty.rows[0];
+       let data = newProperty.rows[0];
+            data.status = 'available';
 
           return res.status(201).json({
                 status: 201,
