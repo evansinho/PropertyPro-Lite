@@ -55,7 +55,7 @@ const User = {
           newUser = newUser.rows[0];
           
 
-      const token = jwt.sign({id: newUser.id}, SECRET, { expiresIn: '24h' });
+      const token = jwt.sign({id: newUser.id, email: newUser.email}, SECRET, { expiresIn: '24h' });
 
         return res.header('token', token).status(201)
               .json({
@@ -96,7 +96,7 @@ async signIn(req, res) {
             status:401,
             error:'Invalid email or password.'});
 
-    const token = jwt.sign({id: user.id}, SECRET, { expiresIn: '24hr' });
+    const token = jwt.sign({id: user.id, email: user.email}, SECRET, { expiresIn: '24hr' });
 
     return res.header('token', token).status(200)
         .json({
