@@ -54,8 +54,8 @@ describe('Create user token', () => {
         .field('address', '8 okoko road')
         .field('type', '3 bedroom')
         .attach('image_url',
-        /*fs.readFileSync('/Users/user/Downloads/assets/apart.jpg'),
-        'apart.jpg'*/"https://res.cloudinary.com/evansinho/image/upload/v1560631316/logo.png");
+        fs.readFileSync('c:/Users/user/Downloads/assets/apart.jpg'),
+        'apart.jpg');
 
       expect(response.status).to.equal(201);
     });
