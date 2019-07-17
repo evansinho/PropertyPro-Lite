@@ -54,8 +54,8 @@ describe('Create user token', () => {
         .field('address', '8 okoko road')
         .field('type', '3 bedroom')
         .attach('image_url',
-        fs.readFileSync('/Users/user/Downloads/assets/apart.jpg'),
-        'apart.jpg');
+        /*fs.readFileSync('/Users/user/Downloads/assets/apart.jpg'),
+        'apart.jpg'*/https://images.unsplash.com/photo-1480074568708-e7b720bb3f09?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1353&q=80);
 
       expect(response.status).to.equal(201);
     });
