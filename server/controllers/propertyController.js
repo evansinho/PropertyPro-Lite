@@ -45,7 +45,7 @@ const Property = {
       const values = [
             req.user.id,
             req.body.price,
-            req.body.status
+            req.body.status,
             req.body.state,
             req.body.city,
             req.body.address,
