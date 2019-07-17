@@ -4,7 +4,7 @@ export const goodPropertyDetail = {
     state: 'lagos state',
     city: 'lagos',
     address: '8 ikoku road',
-    image_url: 'https://example.com/house.jpg',
+    image_url: 'apart.jpg',
     type: '1 bedroom'
   };
          
@@ -21,12 +21,12 @@ export const badPropertyDetail = {
 
 
 export const updatePropertyDetail = {
-    propType:'2 bedroom',
+    type:'2 bedroom',
     state:'lagos state',
     city:'lagos',
     address:'4 ikorudu road',
     price: 200000,
-    image_url:'https://example.com/house.jpg',
+    image_url:'apart.jpg',
   };
 
     

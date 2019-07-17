@@ -36,16 +36,21 @@ const Property = {
           });
       const upload = imageFile.secure_url;
 
+      if(!req.file) return res.status(400)
+        .json({
+          status:400,
+          error: 'upload an image'
+        })
+
       const values = [
             req.user.id,
             req.body.price,
-            'available',
+            req.body.status
             req.body.state,
             req.body.city,
             req.body.address,
             req.body.type,
             upload,
-            'g@gmail.com',
             moment(new Date())
             ];
 

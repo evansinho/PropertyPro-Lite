@@ -28,8 +28,7 @@ const migration = `
 	  state VARCHAR(128) NOT NULL,
 	  city VARCHAR(128) NOT NULL,
 	  address VARCHAR(128) NOT NULL,
-	  image_url  TEXT NOT NULL,
-	  owner_email VARCHAR(128),
+	  image_url TEXT,
 	  created_on TIMESTAMP NOT NULL
 	);
 
