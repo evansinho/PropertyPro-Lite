@@ -54,7 +54,7 @@ describe('Create user token', () => {
         .field('address', '8 okoko road')
         .field('type', '3 bedroom')
         .attach('image_url',
-        fs.readFileSync('c:/Users/user/Downloads/assets/apart.jpg'),
+        fs.readFileSync('c:\Users\user\Downloads\assets\apart.jpg'),
         'apart.jpg');
 
       expect(response.status).to.equal(201);
