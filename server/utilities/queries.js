@@ -10,6 +10,7 @@ export const createPropQuery = `INSERT INTO
             VALUES ($1, $2, $3, $4, $5, $6, $7 ,$8, $9,$10, $11) RETURNING *`       
 
 
+
 export const deleteQuery = `DELETE FROM property WHERE id=$1 AND owner = $2 returning *`;
 
 export const idCheckQuery = `SELECT * FROM property WHERE id=$1 AND owner = $2`;
