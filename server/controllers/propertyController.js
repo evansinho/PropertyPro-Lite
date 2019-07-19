@@ -9,7 +9,7 @@ import {createPropQuery,
         deleteQuery,
         idCheckQuery,
         updateQuery,
-        allPropQuery} from '../utilities/query';
+        allPropQuery} from '../utilities/queries';
 
 
 
@@ -45,12 +45,14 @@ const Property = {
       const values = [
             req.user.id,
             req.body.price,
-            req.body.status
+            req.body.status,
             req.body.state,
             req.body.city,
             req.body.address,
             req.body.type,
             upload,
+            req.user.email,
+            req.user.phone_number,
             moment(new Date())
             ];
 

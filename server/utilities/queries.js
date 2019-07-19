@@ -6,8 +6,8 @@ export const createUserQuery =  `INSERT INTO
 export const emailCheckQuery = 'SELECT * FROM users WHERE email = $1';     
 
 export const createPropQuery = `INSERT INTO 
-            property ( owner,price, status, state, city, address, type, image_url,owner_email, created_on) 
-            VALUES ($1, $2, $3, $4, $5, $6, $7 ,$8, $9, $10) RETURNING *`       
+            property ( owner,price, status, state, city, address, type, image_url,owner_email,owner_phone_number, created_on) 
+            VALUES ($1, $2, $3, $4, $5, $6, $7 ,$8, $9,$10, $11) RETURNING *`       
 
 
 export const deleteQuery = `DELETE FROM property WHERE id=$1 AND owner = $2 returning *`;
@@ -21,5 +21,5 @@ export const updateQuery =`UPDATE property
 export const allPropQuery = 'SELECT * FROM property where owner = $1';  
 
 export const flagQuery = `INSERT INTO 
-            flags ( property_id, created_on, reason, description ) 
-            VALUES ($1, $2, $3, $4) RETURNING *`;                
+            flags ( created_on, reason, description ) 
+            VALUES ($1, $2, $3) RETURNING *`;                

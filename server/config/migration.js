@@ -29,6 +29,8 @@ const migration = `
 	  city VARCHAR(128) NOT NULL,
 	  address VARCHAR(128) NOT NULL,
 	  image_url TEXT,
+	  owner_email VARCHAR(128),
+	  owner_phone_number varchar(100),
 	  created_on TIMESTAMP NOT NULL
 	);
 
@@ -38,7 +40,7 @@ const migration = `
 	DROP TABLE IF EXISTS flags CASCADE;
 	CREATE TABLE flags (
 	  id serial PRIMARY KEY NOT NULL,
-	  property_id serial NOT NULL,
+	  property_id serial REFERENCES property(id),
 	  created_on TIMESTAMP NOT NULL,
 	  reason TEXT NOT NULL,
 	  description TEXT NOT NULL

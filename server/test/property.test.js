@@ -1,4 +1,3 @@
-import fs from 'fs';
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 import app from '../index';
@@ -53,9 +52,7 @@ describe('Create user token', () => {
         .field('city', 'illupeju')
         .field('address', '8 okoko road')
         .field('type', '3 bedroom')
-        .attach('image_url',
-        fs.readFileSync('/Users/user/Downloads/assets/apart.jpg'),
-        'apart.jpg');
+        .attach('image_url','server/test/apart.jpg')
 
       expect(response.status).to.equal(201);
     });
@@ -78,7 +75,7 @@ describe('Create user token', () => {
         .request(app)
         .patch('/api/v1/property/1')
         .set('Authorization', adminToken)
-        .send(goodSignInDetail);
+        .send(goodPropertyDetail);
 
       expect(response.status).to.equal(200);
     });
@@ -101,7 +98,7 @@ describe('Create user token', () => {
         .request(app)
         .patch('/api/v1/property/1/sold')
         .set('Authorization', adminToken)
-        .send(goodSignInDetail);
+        .send(goodPropertyDetail);
 
       expect(response.status).to.equal(200);
     });
@@ -153,7 +150,8 @@ describe('Create user token', () => {
   });     
 
 
-  describe('Delete Product', () => {
+
+  describe('Delete Property', () => {
     it('should display an error 404 message if property is not available', async () => {
       const response = await chai
         .request(app)
@@ -172,3 +170,5 @@ describe('Create user token', () => {
       expect(response.status).to.equal(204);
     }); 
   });
+
+
