@@ -45,7 +45,14 @@ describe('Create user token', () => {
         .request(app)
         .post('/api/v1/property')
         .set('Authorization', adminToken)
-        .send(goodPropertyDetail);
+        .set('Content-Type', 'application/x-www-form-urlencoded')
+        .field('status', 'available')
+        .field('price', '150000')
+        .field('state', 'lagos')
+        .field('city', 'illupeju')
+        .field('address', '8 okoko road')
+        .field('type', '3 bedroom')
+        .attach('image_url','server/test/apart.jpg')
 
       expect(response.status).to.equal(201);
     });
@@ -66,9 +73,9 @@ describe('Create user token', () => {
     it('should update a property given the id', async () => {
       const response = await chai
         .request(app)
-        .patch('/api/v1/property/2')
+        .patch('/api/v1/property/1')
         .set('Authorization', adminToken)
-        .send(goodSignInDetail);
+        .send(goodPropertyDetail);
 
       expect(response.status).to.equal(200);
     });
@@ -89,9 +96,9 @@ describe('Create user token', () => {
     it('should mark a property as sold', async () => {
       const response = await chai
         .request(app)
-        .patch('/api/v1/property/2/sold')
+        .patch('/api/v1/property/1/sold')
         .set('Authorization', adminToken)
-        .send(goodSignInDetail);
+        .send(goodPropertyDetail);
 
       expect(response.status).to.equal(200);
     });
@@ -123,7 +130,7 @@ describe('Create user token', () => {
     it('should return a property of valid id', async () => {
       const response = await chai
         .request(app)
-        .get('/api/v1/property/2')
+        .get('/api/v1/property/1')
         .set('Authorization', adminToken)
 
       expect(response.status).to.equal(200);
@@ -135,7 +142,7 @@ describe('Create user token', () => {
     it('should return all property of a specific proptype', async () => {
       const response = await chai
         .request(app)
-        .get('/api/v1/property?type=1 bedroom')
+        .get('/api/v1/property?type=3 bedroom')
         .set('Authorization', adminToken)
 
       expect(response.status).to.equal(200);
@@ -143,11 +150,12 @@ describe('Create user token', () => {
   });     
 
 
-  describe('Delete Product', () => {
+
+  describe('Delete Property', () => {
     it('should display an error 404 message if property is not available', async () => {
       const response = await chai
         .request(app)
-        .delete('/api/v1/property/1234')
+        .del('/api/v1/property/12')
         .set('Authorization', adminToken);
 
       expect(response.status).to.equal(404);
@@ -156,9 +164,11 @@ describe('Create user token', () => {
     it('user should be able to delete a property', async () => {
       const response = await chai
         .request(app)
-        .delete('/api/v1/property/2')
+        .del('/api/v1/property/1')
         .set('Authorization', adminToken);
 
-      expect(response.status).to.equal(200);
+      expect(response.status).to.equal(204);
     }); 
   });
+
+

@@ -2,7 +2,7 @@ import pool from '../utilities/connection';
 import { checkFlag } from '../middleware/inputValidator';
 import moment from 'moment';
 import uuidv4 from 'uuidv4';
-import { flagQuery } from '../utilities/query';
+import { flagQuery } from '../utilities/queries';
 
 
 
@@ -17,8 +17,6 @@ const Flag = {
                 'error':error.details[0].message});
 
         const values = [
-                1,
-                req.body.property_id,
                 moment(new Date()),
                 req.body.reason,
                 req.body.description

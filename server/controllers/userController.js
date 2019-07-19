@@ -8,7 +8,7 @@ import pool from '../utilities/connection';
 /*import userModel from '../models/userModel';*/
 import { checkSignup, checkSignin } from '../middleware/inputValidator';
 import moment from 'moment';
-import {createUserQuery, emailCheckQuery} from '../utilities/query';
+import {createUserQuery, emailCheckQuery} from '../utilities/queries';
 
 
 
@@ -55,7 +55,7 @@ const User = {
           newUser = newUser.rows[0];
           
 
-      const token = jwt.sign({id: newUser.id}, SECRET, { expiresIn: '24h' });
+      const token = jwt.sign({id: newUser.id, email: newUser.email, phone_number: newUser.phone_number}, SECRET, { expiresIn: '24h' });
 
         return res.header('token', token).status(201)
               .json({
@@ -96,7 +96,7 @@ async signIn(req, res) {
             status:401,
             error:'Invalid email or password.'});
 
-    const token = jwt.sign({id: user.id}, SECRET, { expiresIn: '24hr' });
+    const token = jwt.sign({id: user.id, email: user.email,phone_number: user.phone_number}, SECRET, { expiresIn: '24hr' });
 
     return res.header('token', token).status(200)
         .json({
