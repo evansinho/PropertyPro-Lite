@@ -27,7 +27,7 @@ paths:
           example:
             status: success,
             data:
-              id: t6try348r0934-0405490-787
+              id: 1
               email: doe@storemanager.com
               first_name: john
               last_name: Doe
@@ -118,9 +118,9 @@ paths:
             status: success,
             message: properties AD created successfully.
             data:
-              id: 6ygyrg78y-yt7yu89-65786
+              id: 1
               price: 24000000
-              owner: 6t6tyryru089u-88987
+              owner: 1
               status: available
               state: lagos
               city: lagos
@@ -161,18 +161,18 @@ paths:
             status: success,
             message: property return successfully.
             data:
-              - id: 6ygyrg78y-yt7yu89-65786
+              - id: 1
                 price: 400000
-                owner: 6t6tyryru089u-88987
+                owner: 1
                 status: available
                 state: lagos
                 city: lagos
                 address: 3 old gra street
                 image_url: https://example/hhwhiocji.jpg
                 created_on: 2018-11-25T00:00:00.000Z
-              - id: 2hvhjb8u-79yhh-6rt78t76
+              - id: 2
                 price: 5000000
-                owner: knhjln-hhlj-8jihi8t798y7
+                owner: 1
                 status: available
                 state: cross-river
                 city: calabar
@@ -208,9 +208,9 @@ paths:
             status: success,
             message: specific property type returned successfully.
             data:
-              - id: 6ygyrg78y-yt7yu89-65786
+              - id: 1
                 price: 23400000
-                owner: 6t6tyryru089u-88987
+                owner: 1
                 status: available
                 state: lagos
                 city: lagos
@@ -218,9 +218,9 @@ paths:
                 address: 3 old gra street
                 image_url: https://example/hhwhiocji.jpg
                 created_on: 2018-11-25T00:00:00.000Z
-              - id: okojojjn-lkjhggyg-hytg5y
+              - id: 2
                 price: 9000000
-                owner: mnhkkhj-bjhjk-89y89hy78y
+                owner: 1
                 status: available
                 state: rivers
                 city: port-harcourt
@@ -263,9 +263,9 @@ paths:
             status: success,
             message: property retrieved successfully.
             data:
-              id: 6ygyrg78y-yt7yu89-65786
+              id: 1
               price: 23400000
-              owner: 6t6tyryru089u-88987
+              owner: 1
               status: available
               state: lagos
               city: lagos
@@ -449,8 +449,8 @@ paths:
             status: success,
             message: flag/report created successfully.
             data:
-              id: 6ygyrg78y-yt7yu89-65786
-              property_id: jvbsdhbj-sbkjdbk-sbjkbk
+              id: 1
+              property_id: 1
               created_on: 2019-01-25T00:00:00.000Z
               reason: outrageous prices
               description: the landlords price is too much
@@ -495,7 +495,7 @@ definitions:
         description: 'The address of the user'
         type: string  
     example:
-        id: 7974r-yyeyhliu-holhuil
+        id: 1
         email: john.doe@yahoo.com
         first_name: john
         last_name: doe
@@ -554,7 +554,7 @@ definitions:
         type: date      
     example:
         price: 23400000
-        owner: 6t6tyryru089u-88987
+        owner: 1
         status: available
         state: lagos
         city: lagos
@@ -595,7 +595,7 @@ definitions:
         type: string    
     example:
         price: 23400000
-        owner: 6t6tyryru089u-88987
+        owner: 1
         status: available
         state: lagos
         city: lagos
@@ -632,7 +632,7 @@ definitions:
         description: 'the details of the report'
         type: string 
     example:
-        property_id: jvbsdhbj-sbkjdbk-sbjkbk
+        property_id: 1
         created_on: 2019-01-25T00:00:00.000Z
         reason: outrageous prices
         description: the landlords price is too much
