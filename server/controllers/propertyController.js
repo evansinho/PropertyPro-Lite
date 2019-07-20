@@ -9,61 +9,34 @@ import {createPropQuery,
         deleteQuery,
         idCheckQuery,
         updateQuery,
+        markQuery,
         allPropQuery} from '../utilities/queries';
-
-
-
 
 dotenv.config();
 cloudinary.config(process.env.CLOUDINARY_URL);
 
 
 const Property = {
-
   async create(req,res) {
     try{
-      console.log(req.body);
-      
       const { error } = checkProperty.validate(req.body);
-         if (error) return res.status(400)
-          .json({
-             status:400,
-             "error": error.details[0].message
-               });
+         if (error)
+         	return res.status(400).json({status:400,"error": error.details[0].message});
 
-      const imageFile = await cloudinary.uploader.upload(req.file.path, (result) =>{
+     const imageFile = await cloudinary.uploader.upload(req.file.path, (result) =>{
             return req.body.image_url = result.secure_url;
           });
       const upload = imageFile.secure_url;
 
-      if(!req.file) return res.status(400)
-        .json({
-          status:400,
-          error: 'upload an image'
-        })
+      if(!req.file) return res.status(400).json({status:400,error: 'upload an image'})
 
-      const values = [
-            req.user.id,
-            req.body.price,
-            req.body.status,
-            req.body.state,
-            req.body.city,
-            req.body.address,
-            req.body.type,
-            upload,
-            req.user.email,
-            req.user.phone_number,
-            moment(new Date())
-            ];
+    const values = [req.user.id,req.body.price,req.body.status,req.body.state,req.body.city,
+             req.body.address,req.body.type,upload,req.user.email,req.user.phone_number,moment(new Date())];
 
-       const newProperty = await pool.query(createPropQuery,values);
+    const newProperty = await pool.query(createPropQuery,values);
        let data = newProperty.rows[0];
-      
-          return res.status(201).json({
-                status: 201,
-                data
-              });
-          }catch(error){
+          return res.status(201).json({status: 201,data});
+             }catch(error){
             console.log(error);
             }
           },
@@ -72,32 +45,20 @@ const Property = {
   async delete(req,res){
       try{
         const deleteProperty = await pool.query(deleteQuery,[req.params.id, req.user.id]);
-             if (!deleteProperty.rowCount) return res.status(404)
-                  .json({
-                    "status":404,
-                    "error": 'property not found'
-                  });
+            if (!deleteProperty.rowCount) 
+            	return res.status(404).json({"status":404,"error": 'property not found'});
 
-              return res.status(204)
-              .json({
-                status:204,
-                message: 'property advert deleted'
-              });
-
-            }catch(error){
-                console.log(error);
-            }
-          },
+               return res.status(204).json({status:204,message: 'property advert deleted'});
+		            }catch(error){
+		                console.log(error);
+		            }
+		          },
 
 
   async update (req, res){
       try{
         const { rows } = await pool.query(idCheckQuery,[req.params.id, req.user.id]);
-                 if (!rows[0]) return res.status(404)
-                    .json({
-                      "status":404,
-                      "error": 'property not found'
-                    });
+            if (!rows[0]) return res.status(404).json({"status":404,"error": 'property not found'});
 
         const values = [
                   req.body.price || rows[0].price,
@@ -114,13 +75,7 @@ const Property = {
 
         const response = await pool.query(updateQuery,values);
         const data = response.rows[0];
-
-              return res.status(200)
-                    .json({
-                      status:200,
-                      data
-                    });
-
+              return res.status(200).json({status:200,data});
               }catch(error){
                 console.log(error);
               }
@@ -130,13 +85,9 @@ const Property = {
   async mark(req, res){
       try{  
         const { rows } = await pool.query(idCheckQuery,[req.params.id, req.user.id]);
-               if (!rows[0]) return res.status(404)
-                    .json({
-                      status:404,
-                      error: 'property not found'
-                    });
+            if (!rows[0]) return res.status(404).json({status:404,error: 'property not found'});
                   
-        const values = [
+        /*const values = [
                 req.body.price || rows[0].price,
                 req.body.status || rows[0].status,
                 req.body.state || rows[0].state,
@@ -147,50 +98,38 @@ const Property = {
                 moment(new Date()),
                 req.params.id,
                 req.user.id
-               ];     
+               ];    */ 
 
-        const response = await pool.query(updateQuery, values);
-        const markProperty = response.rows[0];
-        const data = await _.pick(markProperty,['status','created_on']);
-              return res.status(200)
-                    .json({
-                        status:200,
-                        data
-                       });
+        const values = [req.body.status || rows[0].status,req.params.id,req.user.id]       
 
-            }catch(error){
-              console.log(error);
-            }
-          },
+        const response = await pool.query(markQuery, values);
+        const data = response.rows[0];
+        //const data = await _.pick(markProperty,['status','created_on']);
+              return res.status(200).json({status:200,data});
+	            }catch(error){
+	              console.log(error);
+	            }
+	          },
 
 
   async getAProperty(req, res){
       try{
         const { rows, rowCount } = await pool.query(idCheckQuery,[req.params.id,req.user.id]);
-            if (!rowCount) return res.status(404)
-                    .json({
-                      "status":404,
-                      "error": 'property not found'
-                    });
-
+            if (!rowCount) 
+            	return res.status(404).json({"status":404,"error": 'property not found'});
             let data = rows[0];
 
-               return res.status(200)
-               .json({
-                status:200,
-                data
-                });
+               return res.status(200).json({status:200,data});
               
-              }catch(error){
-                console.log(error);
-              }
+	              }catch(error){
+	                console.log(error);
+	                 }  
             },
 
 
   async getAll(req, res){
       try{
         let data = [];
-
         const { rows } = await pool.query(allPropQuery,[req.user.id]);
         const properties = rows;
 
@@ -201,25 +140,15 @@ const Property = {
               }
             })
           }
-
+          
           if (Object.keys(req.query).length === 0){
             data = properties;
           }
-
-          return res.status(200)
-           .json({
-              status:200,
-              data
-            });
-
-        }catch(error){
-          return res.status(400)
-           .json({
-              "status":400,
-              "error": error
-           });
-         }
-      }    
+          return res.status(200).json({status:200,data});
+	        }catch(error){
+	          return res.status(400).json({"status":400,"error": error});
+	         }
+	      }    
 
 }
   
