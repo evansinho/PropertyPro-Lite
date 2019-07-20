@@ -12,60 +12,32 @@ import {createUserQuery, emailCheckQuery} from '../utilities/queries';
 
 
 
-
-
 dotenv.config();
 const SECRET = process.env.JWT_KEY;
 
-
-
 const User = {
-
   async signUp(req, res) {
     try{  
-      console.log(req.body);
       const { error } = checkSignup.validate(req.body);
-       if (error) return res.status(400)
-          .json({
-          status:400,
-          'error':error.details[0].message});
+       if (error) 
+        return res.status(400).json({status:400,'error':error.details[0].message});
 
       const userExist = await pool.query(emailCheckQuery,[req.body.email]);
-        if (userExist.rowCount) return res.status(409)
-            .json({
-                  status:409,
-                  'error':'Email address has been used'
-                });
+        if (userExist.rowCount) 
+          return res.status(409).json({status:409,'error':'Email address has been used'});
      
-          const salt = await bcrypt.genSalt(10);
-          const hashedPassword = await bcrypt.hash(req.body.password, salt);
+      const salt = await bcrypt.genSalt(10);
+      const hashedPassword = await bcrypt.hash(req.body.password, salt);
       
+      const values = [req.body.email,req.body.first_name,req.body.last_name,hashedPassword,
+              req.body.phone_number,req.body.address];
 
-      const values = [
-              req.body.email,
-              req.body.first_name,
-              req.body.last_name,
-              hashedPassword,
-              req.body.phone_number,
-              req.body.address
-              ];
-
-      
       let newUser = await pool.query(createUserQuery, values); 
           newUser = newUser.rows[0];
           
-
       const token = jwt.sign({id: newUser.id, email: newUser.email, phone_number: newUser.phone_number}, SECRET, { expiresIn: '24h' });
 
-        return res.header('token', token).status(201)
-              .json({
-                status: 201,
-                data: {
-                  token,
-                  newUser
-                }
-              });
-
+        return res.header('token', token).status(201).json({status: 201,data: {token,newUser}});
           }catch(error){
             console.log(error);
            }  
@@ -74,43 +46,26 @@ const User = {
 
 async signIn(req, res) {    
   try{
-    console.log(req.body);
     const { error } = checkSignin.validate(req.body);
-        if (error) return res.status(400)
-          .json({
-          status:400,
-          error:error.details[0].message}); 
+        if (error) 
+          return res.status(400).json({status:400,error:error.details[0].message}); 
 
     let user = await pool.query(emailCheckQuery,[req.body.email]);
-        if (!user.rowCount) return res.status(401)
-          .json({
-          status:401,
-          error:'Invalid email or password.'});
-
-        user = user.rows[0];
+        if (!user.rowCount) 
+          return res.status(401).json({status:401,error:'Invalid email or password.'});
+          user = user.rows[0];
 
     const validPassword = await bcrypt.compare(req.body.password,  user.password);
 
-        if (!validPassword) return res.status(401)
-          .json({
-            status:401,
-            error:'Invalid email or password.'});
+        if (!validPassword) 
+          return res.status(401).json({status:401,error:'Invalid email or password.'});
 
     const token = jwt.sign({id: user.id, email: user.email,phone_number: user.phone_number}, SECRET, { expiresIn: '24hr' });
 
-    return res.header('token', token).status(200)
-        .json({
-          status: 200,
-          data: {
-            token,
-            user
-          }
-        });
+    return res.header('token', token).status(200).json({status: 200,data:{token,user}});
       }catch(error){
-
-    console.log(error)
-    
-    }
+        console.log(error)
+       }
  },
 
 /*
