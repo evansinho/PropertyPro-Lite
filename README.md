@@ -12,9 +12,7 @@ Property Pro Lite is a platform where people can create and/or search properties
 
 ## App Links
 
-> [PropertyPro-lite App](https://historic-biscayne-93397.herokuapp.com).
-
-> [App Documentation](https://historic-biscayne-93397.herokuapp.com/docs).
+> [PropertyPro-lite App]().
 
 ## Required Features
 
